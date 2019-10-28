@@ -28,7 +28,7 @@
       <div v-if="status==='ready' || appletsFromServer.length" class="mb-3 pb-3">
         <div v-if="!appletsFromServer.length && status==='ready'">
           <p class="lead">
-            You have no apps yet!
+            You have no applets yet!
           </p>
           <img src="@/assets/undraw_no_data_qbuo.svg" class="illustration" />
         </div>
