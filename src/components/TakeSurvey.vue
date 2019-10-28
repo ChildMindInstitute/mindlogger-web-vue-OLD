@@ -45,10 +45,10 @@
 </template>
 
 <script>
-import Survey from '@bit/akeshavan.mindlogger-web.survey';
+import Survey from './Survey';
 import SaveButton from './SaveButton';
-import Login from './Login/';
-import api from '../lib/api/';
+import Login from './Login';
+import api from '../lib/api';
 
 export default {
   name: 'TakeSurvey',
@@ -133,7 +133,8 @@ export default {
       // console.log('responses', this.responses);
 
       // restructure responses if they are nested?
-
+      // eslint-disable-next-line
+      console.log(this.applet);
       api.getAppletFromURI({
         apiHost: this.apiHost,
         token: this.user.authToken.token,

@@ -148,9 +148,9 @@
 <script>
 import jsonld from 'jsonld/dist/jsonld.min';
 import axios from 'axios';
-import Circle from '@bit/akeshavan.mindlogger-web.circle';
 import _ from 'lodash';
 import '@fortawesome/fontawesome-free/css/all.css';
+import Circle from './Circle';
 import NavSide from './NavSide';
 import NavBottom from './NavBottom';
 import colors from '../custom-bootstrap.scss';
@@ -166,8 +166,8 @@ function getVariableName(s, variableMap) {
   const vmap = variableMap[0]['@list'];
   const mapper = {};
   _.map(vmap, (v) => {
-    const uri = v['https://schema.repronim.org/isAbout'][0]['@id'];
-    const variable = v['https://schema.repronim.org/variableName'][0]['@value'];
+    const uri = v['https://raw.githubusercontent.com/ReproNim/schema-standardization/master/terms/isAbout'][0]['@id'];
+    const variable = v['https://raw.githubusercontent.com/ReproNim/schema-standardization/master/terms/variableName'][0]['@value'];
     mapper[uri] = variable;
   });
   return mapper[s['@id']];
@@ -226,7 +226,7 @@ export default {
     },
     activityOrder() {
       if (this.data) {
-        const tmp = this.data['https://schema.repronim.org/order'];
+        const tmp = this.data['https://raw.githubusercontent.com/ReproNim/schema-standardization/master/terms/order'];
         if (tmp) {
           return tmp[0]['@list'];
         }
@@ -235,7 +235,7 @@ export default {
     },
     activityDisplayNames() {
       if (this.data) {
-        const tmp = this.data['https://schema.repronim.org/activity_display_name'];
+        const tmp = this.data['https://raw.githubusercontent.com/ReproNim/schema-standardization/master/terms/activity_display_name'];
         if (tmp) {
           return tmp[0];
         }
@@ -260,8 +260,8 @@ export default {
       if (this.activityOrder) {
         _.map(this.activityOrder, (s) => {
           let fname = '';
-          if (this.data['https://schema.repronim.org/variableMap']) {
-            fname = getVariableName(s, this.data['https://schema.repronim.org/variableMap']);
+          if (this.data['https://raw.githubusercontent.com/ReproNim/schema-standardization/master/terms/variableMap']) {
+            fname = getVariableName(s, this.data['https://raw.githubusercontent.com/ReproNim/schema-standardization/master/terms/variableMap']);
           } else {
             // TODO: remove this backwards compatibility else
             fname = getFilename(s);
@@ -272,22 +272,22 @@ export default {
       return output;
     },
     visibilityConditions() {
-      if (this.data['https://schema.repronim.org/visibility']) {
+      if (this.data['https://raw.githubusercontent.com/ReproNim/schema-standardization/master/terms/visibility']) {
         return _.map(this.activityOrder, (s) => {
           // console.log(s);
           // TODO: don't assume the key name is the same as the ending of the filename.
           let keyName = '';
-          if (this.data['https://schema.repronim.org/variableMap']) {
-            keyName = getVariableName(s, this.data['https://schema.repronim.org/variableMap']);
+          if (this.data['https://raw.githubusercontent.com/ReproNim/schema-standardization/master/terms/variableMap']) {
+            keyName = getVariableName(s, this.data['https://raw.githubusercontent.com/ReproNim/schema-standardization/master/terms/variableMap']);
           } else {
             // TODO: remove this backwards compatibility else
             keyName = getFilename(s);
           }
 
-          // look through the "https://schema.repronim.org/visibility" field
+          // look through the "https://raw.githubusercontent.com/ReproNim/schema-standardization/master/terms/visibility" field
           // and reformat nicely
 
-          let condition = _.filter(this.data['https://schema.repronim.org/visibility'], c => c['@index'] === keyName);
+          let condition = _.filter(this.data['https://raw.githubusercontent.com/ReproNim/schema-standardization/master/terms/visibility'], c => c['@index'] === keyName);
 
           if (condition.length === 1) {
             condition = condition[0];
@@ -300,18 +300,18 @@ export default {
 
             if (conditionKeys.indexOf('http://schema.org/httpMethod') > -1 &&
               conditionKeys.indexOf('http://schema.org/url') > -1 &&
-              conditionKeys.indexOf('https://schema.repronim.org/payload') > -1
+              conditionKeys.indexOf('https://raw.githubusercontent.com/ReproNim/schema-standardization/master/terms/payload') > -1
             ) {
               // lets fill the payload here.
               const payload = {};
-              const payloadList = condition['https://schema.repronim.org/payload'];
+              const payloadList = condition['https://raw.githubusercontent.com/ReproNim/schema-standardization/master/terms/payload'];
               _.map(payloadList, (p) => {
                 const item = p['@value'];
                 const index = this.schemaNameMapper[item]['@id'];
                 payload[this.schemaNameMapper[item]['@id']] = this.responses[index];
               });
               return {
-                url: condition['http://schema.org/url'][0]['@value'],
+                url: condition['http://schema.org/url'] || condition.url,
                 method: condition['http://schema.org/httpMethod'][0]['@value'],
                 payload,
               };
@@ -386,7 +386,7 @@ export default {
         if (url in this.activities) {
           return (this.activities[url]['http://www.w3.org/2004/02/skos/core#prefLabel'][0]['@value'] || this.activities[url]['http://www.w3.org/2004/02/skos/core#altLabel'][0]['@value'] || undefined);
         }
-        const nameMap = this.data['https://schema.repronim.org/activity_display_name'][0];
+        const nameMap = this.data['https://raw.githubusercontent.com/ReproNim/schema-standardization/master/terms/activity_display_name'][0];
         if (url in nameMap) {
           const mappedUrl = nameMap[url][0]['@id'];
           const folders = mappedUrl.split('/');

@@ -206,7 +206,8 @@ export default {
       // eslint-disable-next-line
       return _.map(this.appletsFromServer, (a, index) => {
         return { name: a['http://www.w3.org/2004/02/skos/core#prefLabel'] ? a['http://www.w3.org/2004/02/skos/core#prefLabel'][0]['@value'] : '',
-          url: a['http://schema.org/url'] ? a['http://schema.org/url'][0]['@value'] : a['http://schema.org/url'] || a.url || '',
+          _id: a._id.split('applet/')[1] || '',
+          url: a['http://schema.org/url'] ? a['http://schema.org/url'] : a['http://schema.org/url'] || a.url || '',
           description: a['http://schema.org/description'] ? a['http://schema.org/description'][0]['@value'] : '',
           image: a['http://schema.org/image'] ? a['http://schema.org/image'][0]['@value'] : a['http://schema.org/image'] || `https://picsum.photos/400/400/?image=${350 + index}`,
           selected: true,
@@ -229,13 +230,12 @@ export default {
       api.getAppletsForUser({
         apiHost: this.apiHost,
         token: this.user.authToken.token,
-        user: this.user.user._id,
         role: 'user',
       })
         .then((resp) => {
           if (resp) {
             const appletsFromServer = resp.data.map(applet => applet.applet)
-              .filter(a => a['http://schema.org/url']);
+              .filter(a => a['http://schema.org/url'] || a.url);
             this.status = 'ready';
             this.$store.commit('setApplets', appletsFromServer);
           } else {

@@ -35,10 +35,10 @@
         <div v-else>
           <div
             v-for="(applet, index) in appletsFromServer"
-            :key="applet['http://schema.org/url'][0]['@value']" class="mt-3 mb-3"
+            :key="applet._id || applet.url" class="mt-3 mb-3"
           >
             <b-card no-body class="overflow-hidden mx-auto special" style="max-width: 540px;">
-              <router-link :to="{name: 'Applet', params: {appletId: applet['http://schema.org/url'][0]['@value']}}">
+              <router-link :to="{name: 'Applet', params: {appletId: applet._id || applet['http://schema.org/url'] || applet.url}}">
               <b-row no-gutters>
                 <b-col md="6">
                   <b-card-img
@@ -47,7 +47,7 @@
                   style="width: 250px; height: 250px;"
                   />
                 </b-col>
-                <b-col md="6" v-if="applet['http://schema.org/url'][0]['@value']">
+                <b-col md="6" v-if="applet._id || applet['http://schema.org/url'] || applet.url">
                   <b-card-body :title="applet['http://www.w3.org/2004/02/skos/core#prefLabel'][0]['@value']">
                     <b-card-text>
                       {{applet['http://schema.org/description'][0]['@value']}}
@@ -101,7 +101,7 @@
 // import jsonld from 'jsonld/dist/jsonld.min';
 // import Loader from '@bit/akeshavan.mindlogger-web.loader';
 // import _ from 'lodash';
-import api from '../lib/api/';
+import api from '../lib/api';
 import BounceLoader from './BounceLoader';
 
 export default {
@@ -161,13 +161,11 @@ export default {
       return api.getAppletsForUser({
         apiHost: this.apiHost,
         token: this.user.authToken.token,
-        user: this.user.user._id,
         role: 'user',
       })
         .then((resp) => {
           if (resp.data.length) {
-            const appletsFromServer = resp.data.map(applet => applet.applet)
-              .filter(a => a['http://schema.org/url']);
+            const appletsFromServer = resp.data.map(applet => applet.applet);
             const activitiesFromServer = Object.assign(...resp.data.map(
               activity => activity.activities,
             ));

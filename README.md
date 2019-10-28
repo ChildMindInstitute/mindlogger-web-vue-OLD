@@ -8,9 +8,6 @@
 ## Build Setup
 
 ``` bash
-# set @bit:resgistry
-npm config set @bit:registry https://node.bitsrc.io
-
 # install dependencies
 npm install
 

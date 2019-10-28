@@ -33,8 +33,8 @@ export default {
   computed: {
     activityTimeUnit() {
       if (!_.isEmpty(this.metadata)) {
-        if (this.metadata[0]['https://schema.repronim.org/timeUnit']) {
-          return this.metadata[0]['https://schema.repronim.org/timeUnit'][0]['@value'];
+        if (this.metadata[0]['https://raw.githubusercontent.com/ReproNim/schema-standardization/master/terms/timeUnit']) {
+          return this.metadata[0]['https://raw.githubusercontent.com/ReproNim/schema-standardization/master/terms/timeUnit'][0]['@value'];
         }
         return null;
       }

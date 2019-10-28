@@ -22,7 +22,7 @@
       <p>
         <b-button size="lg" variant="success" v-if="activityOrder[0]"
          :to="{name: 'TakeSurvey',
-         params: {appletId: applet.url, surveyId: activityOrder[0]['@id']}}">
+         params: {applet, appletId: applet.url, surveyId: activityOrder[0]['@id']}}">
           Start
         </b-button>
       </p>
@@ -113,7 +113,7 @@ export default {
   },
   computed: {
     // activityOrder() {
-    //   const tmp = this.data['https://schema.repronim.org/order'];
+    //   const tmp = this.data['https://raw.githubusercontent.com/ReproNim/schema-standardization/master/terms/order'];
     //   if (tmp) {
     //     return tmp[0]['@list'];
     //   }
@@ -136,4 +136,3 @@ export default {
   },
 };
 </script>
-

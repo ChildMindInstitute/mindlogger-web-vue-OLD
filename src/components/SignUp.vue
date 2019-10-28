@@ -110,7 +110,7 @@
 
 <script>
 import _ from 'lodash';
-import api from '../../lib/api';
+import api from '../lib/api';
 
 /**
  * # SignUp

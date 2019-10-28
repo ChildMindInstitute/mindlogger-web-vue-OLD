@@ -37,7 +37,7 @@ import _ from 'lodash';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import config from './config';
-import Navbar from './components/Navbar/';
+import Navbar from './components/Navbar';
 
 Vue.use(BootstrapVue);
 
