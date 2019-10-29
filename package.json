@@ -15,8 +15,6 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.3",
-    "@bit/akeshavan.mindlogger-web.login": "0.0.12",
-    "@bit/akeshavan.mindlogger-web.section": "0.0.1",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "bootstrap-vue": "^2.0.0-rc.13",
