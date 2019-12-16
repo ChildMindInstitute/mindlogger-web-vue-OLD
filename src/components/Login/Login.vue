@@ -12,7 +12,7 @@
           <b-form-input id="username"
                         v-model="form.username"
                         required
-                        placeholder="Enter email">
+                        placeholder="Enter username">
           </b-form-input>
         </b-form-group>
 
