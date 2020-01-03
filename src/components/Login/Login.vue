@@ -5,21 +5,14 @@
     <div id="signupForm" class="container fluid">
       <b-alert :show="errors.show" variant="danger">{{errors.message}}</b-alert>
       <b-form @submit="onSubmit">
-        <b-form-group id="usernameInputGroup"
-                      label="Username:"
-                      label-for="username"
-                      >
+        <b-form-group id="usernameInputGroup">
           <b-form-input id="username"
                         v-model="form.username"
                         required
-                        placeholder="Enter email">
+                        placeholder="Username">
           </b-form-input>
         </b-form-group>
-
-
-        <b-form-group id="passwordInputGroup"
-                      label="Password:"
-                      label-for="passwordInput">
+        <b-form-group id="passwordInputGroup">
           <b-form-input id="passwordInput"
                         type="password"
                         v-model="form.password"
