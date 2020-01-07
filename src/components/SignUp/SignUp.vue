@@ -2,10 +2,8 @@
   <div id="signup" class="pt-3 ">
     <div class="">
     <h1 class="text-center" v-if="useTitle"> Sign Up </h1>
-    <!-- Modal Component -->
-
     <div id="signupForm" class="container fluid">
-      <b-form @submit="onSubmit" validated>
+      <b-form @submit="onSubmit">
         <b-alert :show="errors.show" variant="danger">{{errors.message}}</b-alert>
 
         <b-form-group id="usernameInputGroup">
@@ -13,7 +11,8 @@
                         type="text"
                         v-model="form.login"
                         required
-                        placeholder="Username">
+                        placeholder="Username"
+                        autocomplete="off">
           </b-form-input>
         </b-form-group>
 
@@ -22,7 +21,8 @@
                         type="text"
                         v-model="form.displayName"
                         required
-                        placeholder="Display Name">
+                        placeholder="Display Name"
+                        autocomplete="off">
           </b-form-input>
         </b-form-group>
 
@@ -31,23 +31,25 @@
                         type="password"
                         v-model="form.password"
                         required
-                        placeholder="Password">
+                        placeholder="Password"
+                        autocomplete="new-password">
           </b-form-input>
         </b-form-group>
 
         <b-form-group id="password2InputGroup">
-          <b-alert :show="!validated" variant="danger">
-            Make sure your passwords match!
-          </b-alert>
           <b-form-input id="password2Input"
                         type="password"
                         v-model="form.password2"
                         required
-                        placeholder="Confirm password">
+                        placeholder="Confirm password"
+                        autocomplete="new-password">
           </b-form-input>
         </b-form-group>
+        <b-alert :show="!validated" variant="danger">
+          Make sure your passwords match!
+        </b-alert>
 
-        <b-button type="submit" variant="primary" :disabled="status==='loading' || !validated">
+        <b-button type="submit" variant="primary" :disabled="status === 'loading' || !validated">
           <span v-if="status==='ready'">Submit</span>
           <span v-else>Signing up...</span>
         </b-button>
@@ -61,7 +63,7 @@
   </div>
   </div>
 </template>
-<style>
+<style scoped>
 #signup {
   min-height: 100vh;
 }
@@ -118,7 +120,6 @@ export default {
         lastName: '',
       },
       show: true,
-      freezeEmail: false,
       errors: {
         show: false,
         message: null,
@@ -133,12 +134,6 @@ export default {
     loginWithQuery() {
       return { ...this.loginLink, query: this.query };
     },
-  },
-  mounted() {
-    if (this.$route.query.email) {
-      this.freezeEmail = true;
-      this.form.email = this.$route.query.email;
-    }
   },
   methods: {
     /**
