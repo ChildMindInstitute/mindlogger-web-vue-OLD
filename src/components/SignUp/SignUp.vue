@@ -2,87 +2,54 @@
   <div id="signup" class="pt-3 ">
     <div class="">
     <h1 class="text-center" v-if="useTitle"> Sign Up </h1>
-    <!-- Modal Component -->
-
     <div id="signupForm" class="container fluid">
-      <b-form @submit="onSubmit" validated>
+      <b-form @submit="onSubmit">
         <b-alert :show="errors.show" variant="danger">{{errors.message}}</b-alert>
 
-        <b-form-group id="emailAddressInputGroup"
-                      label="Email address:"
-                      label-for="emailAddress"
-                      description="We'll never share your email with anyone else.">
-          <b-form-input id="emailAddress"
-                        type="email"
-                        v-model="form.email"
-                        required
-                        :disabled="freezeEmail"
-                        placeholder="Enter email">
-          </b-form-input>
-        </b-form-group>
-        <b-form-group id="usernameInputGroup"
-                      label="Username:"
-                      label-for="usernameInput"
-                      description="">
+        <b-form-group id="usernameInputGroup">
           <b-form-input id="usernameInput"
                         type="text"
                         v-model="form.login"
                         required
-                        placeholder="Choose a username">
+                        placeholder="Username"
+                        autocomplete="off">
           </b-form-input>
         </b-form-group>
 
-        <b-form-group id="firstNameInputGroup"
-                      label="First Name:"
-                      label-for="firstNameInput"
-                      description="">
-          <b-form-input id="firstNameInput"
+        <b-form-group id="displayNameInputGroup">
+          <b-form-input id="displayNameInput"
                         type="text"
-                        v-model="form.firstName"
+                        v-model="form.displayName"
                         required
-                        placeholder="First Name">
+                        placeholder="Display Name"
+                        autocomplete="off">
           </b-form-input>
         </b-form-group>
 
-        <b-form-group id="lastNameInputGroup"
-                      label="Last Name:"
-                      label-for="lastNameInput"
-                      description="">
-          <b-form-input id="lastNameInput"
-                        type="text"
-                        v-model="form.lastName"
-                        required
-                        placeholder="Last Name">
-          </b-form-input>
-        </b-form-group>
-
-        <b-form-group id="passwordInputGroup"
-                      label="Password:"
-                      label-for="passwordInput">
+        <b-form-group id="passwordInputGroup">
           <b-form-input id="passwordInput"
                         type="password"
                         v-model="form.password"
                         required
-                        placeholder="Password">
+                        placeholder="Password"
+                        autocomplete="new-password">
           </b-form-input>
         </b-form-group>
 
-        <b-form-group id="password2InputGroup"
-                      label="Confirm Password:"
-                      label-for="password2Input">
-          <b-alert :show="!validated" variant="danger">
-            Make sure your passwords match!
-          </b-alert>
+        <b-form-group id="password2InputGroup">
           <b-form-input id="password2Input"
                         type="password"
                         v-model="form.password2"
                         required
-                        placeholder="Confirm password">
+                        placeholder="Confirm password"
+                        autocomplete="new-password">
           </b-form-input>
         </b-form-group>
+        <b-alert :show="!validated" variant="danger">
+          Make sure your passwords match!
+        </b-alert>
 
-
-        <b-button type="submit" variant="primary" :disabled="status==='loading' || !validated">
+        <b-button type="submit" variant="primary" :disabled="status === 'loading' || !validated">
           <span v-if="status==='ready'">Submit</span>
           <span v-else>Signing up...</span>
         </b-button>
@@ -96,7 +63,7 @@
   </div>
   </div>
 </template>
-<style>
+<style scoped>
 #signup {
   min-height: 100vh;
 }
@@ -149,11 +116,10 @@ export default {
         password: '',
         password2: '',
         login: '',
-        firstName: '',
+        displayName: '',
         lastName: '',
       },
       show: true,
-      freezeEmail: false,
       errors: {
         show: false,
         message: null,
@@ -169,14 +135,6 @@ export default {
       return { ...this.loginLink, query: this.query };
     },
   },
-  mounted() {
-    // eslint-disable-next-line
-    console.log(this.$route.query);
-    if (this.$route.query.email) {
-      this.freezeEmail = true;
-      this.form.email = this.$route.query.email;
-    }
-  },
   methods: {
     /**
     * Submit registration info to the server, and then save the response to the parent component.
@@ -185,15 +143,10 @@ export default {
       e.preventDefault();
       this.status = 'loading';
       api.signUp(this.apiHost, {
-        email: this.form.email,
-        password: this.form.password,
         login: this.form.login,
-        firstName: this.form.firstName,
-        lastName: this.form.lastName,
+        displayName: this.form.displayName,
+        password: this.form.password,
       }).then((resp) => {
-        /*
-          make the response look the same as the login response
-        */
         this.status = 'ready';
         const keys = _.filter(Object.keys(resp.data), k => k !== 'authToken');
         const cleanedUser = {};
