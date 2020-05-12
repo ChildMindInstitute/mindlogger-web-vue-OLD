@@ -6,7 +6,7 @@
       <div class="heading">
         <h1>
           <b-img v-bind="mainProps" rounded="circle" alt="Circle image" class="mr-3"></b-img>
-          {{user.user.firstName}}
+          {{user.user.firstName}} {{user.user.lastName}}
         </h1>
       </div>
 
