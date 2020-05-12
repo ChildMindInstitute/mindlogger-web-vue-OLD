@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import TakeSurvey from '@/components/TakeSurvey';
 import Login from '@/components/Login/';
 import SignUp from '@/components/SignUp/';
+import ForgotPassword from '@/components/ForgotPassword/';
 import Profile from '@/components/Profile';
 import Landing from '@/components/Landing';
 import Applet from '@/components/Applet';
@@ -62,6 +63,7 @@ const router = new Router({
       props: {
         apiHost: config.apiHost,
         signupLink: { name: 'SignUp' },
+        forgotLink: { name: 'ForgotPassword' },
       },
     },
     {
@@ -73,6 +75,15 @@ const router = new Router({
       path: '/signup',
       name: 'SignUp',
       component: SignUp,
+      props: {
+        apiHost: config.apiHost,
+        loginLink: { name: 'Login' },
+      },
+    },
+    {
+      path: '/forgotpassword',
+      name: 'ForgotPassword',
+      component: ForgotPassword,
       props: {
         apiHost: config.apiHost,
         loginLink: { name: 'Login' },
