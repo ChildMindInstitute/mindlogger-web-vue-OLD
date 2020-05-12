@@ -6,10 +6,10 @@
       <b-alert :show="errors.show" variant="danger">{{errors.message}}</b-alert>
       <b-form @submit="onSubmit">
         <b-form-group id="usernameInputGroup">
-          <b-form-input id="username"
-                        v-model="form.username"
+          <b-form-input id="email"
+                        v-model="form.email"
                         required
-                        placeholder="Username">
+                        placeholder="Email">
           </b-form-input>
         </b-form-group>
         <b-form-group id="passwordInputGroup">
@@ -23,7 +23,7 @@
 
 
         <b-button type="submit" variant="primary" :disabled="status==='loading'">
-          <span v-if="status==='ready'">Submit</span>
+          <span v-if="status==='ready'">Log In</span>
           <span v-else>Logging in...</span>
         </b-button>
 
@@ -32,8 +32,8 @@
       <p class="mt-3" v-if="signupLink">
         Don't have an account? <router-link :to="signupWithQuery">Create one</router-link>
       </p>
-      <p class="mt-3" v-if="forgotLink">
-        Forgot your password? <router-link :to="forgotLink">Reset it</router-link>
+      <p class="mt-3">
+        Forgot password? <router-link :to="forgotLink">Reset it</router-link>
       </p>
     </div>
 
@@ -41,6 +41,10 @@
 </template>
 
 <style>
+  a {
+    text-decoration: underline;
+  }
+
   #signupForm {
     max-width: 400px;
     padding: 20px;
@@ -88,8 +92,10 @@ export default {
       },
     },
     forgotLink: {
-      type: String,
-      default: '',
+      type: Object,
+      default() {
+        return {};
+      },
     },
     query: {
       type: Object,
@@ -115,7 +121,7 @@ export default {
        * to store and eventually send to the endpoint.
        */
       form: {
-        username: null,
+        email: null,
         password: null,
       },
       /**
@@ -148,7 +154,7 @@ export default {
       e.preventDefault();
       this.status = 'loading';
       api.signIn({ apiHost: this.apiHost,
-        user: this.form.username,
+        user: this.form.email,
         password: this.form.password }).then((resp) => {
         this.$emit('login', resp.data);
         this.$router.push(this.$store.state.redirect);
