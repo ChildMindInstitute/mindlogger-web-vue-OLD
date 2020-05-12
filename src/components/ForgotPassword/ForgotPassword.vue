@@ -41,15 +41,6 @@
 <script>
 import api from '../../lib/api';
 
-/**
- * # SignUp
- * #### component for mindlogger-web to mindlogger-backend
- *
- * ## props
- * * `apiHost` : String, url to mindlogger-server, a Girder
- * * `loginLink` : String, a string that points to a router view (optional)
- */
-
 export default {
   name: 'forgotpassword',
   props: {
@@ -90,9 +81,6 @@ export default {
     },
   },
   methods: {
-    /**
-    * Submit registration info to the server, and then save the response to the parent component.
-    */
     onSubmit(e) {
       e.preventDefault();
       this.status = 'loading';
@@ -111,32 +99,6 @@ export default {
         this.status = 'fail';
         this.error = e.message;
       });
-      // api.signUp(this.apiHost, {
-      //   email: this.form.email,
-      //   firstName: this.form.firstName,
-      //   lastName: this.form.lastName,
-      //   password: this.form.password,
-      // }).then((resp) => {
-      //   this.status = 'ready';
-      //   const keys = _.filter(Object.keys(resp.data), k => k !== 'authToken');
-      //   const cleanedUser = {};
-      //   _.map(keys, (k) => {
-      //     cleanedUser[k] = resp.data[k];
-      //   });
-      //   // tell the parent we've logged in with this token info.
-      //   this.$emit('login', { authToken: resp.data.authToken, user: cleanedUser });
-      //   this.$router.push(this.$store.state.redirect);
-      //   this.$store.commit('setRedirect', 'Profile');
-      // }).catch((err) => {
-      //   this.errors.show = true;
-      //   this.errors.code = err.response;
-      //   try {
-      //     this.errors.message = err.response.data.message;
-      //   } catch (x) {
-      //     this.errors.message = err.message;
-      //   }
-      //   this.status = 'ready';
-      // });
     },
   },
 };
