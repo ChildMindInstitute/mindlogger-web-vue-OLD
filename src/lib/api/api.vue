@@ -104,6 +104,13 @@ const signUp = (apiHost, body) => axios({
   },
 });
 
+const resetPassword = ({ apiHost, body }) => axios({
+  method: 'put',
+  url: `${apiHost}/user/password/temporary`,
+  params: {
+    ...body,
+  },
+});
 
 /**
  * ## sendActivityData
@@ -219,6 +226,7 @@ const removeInvitation = ({ apiHost, token, invitationId }) => axios({
 export default {
   signIn,
   signUp,
+  resetPassword,
   sendActivityData,
   getActivityFromURI,
   getAppletFromURI,
