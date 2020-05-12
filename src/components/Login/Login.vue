@@ -41,10 +41,6 @@
 </template>
 
 <style>
-  a {
-    text-decoration: underline;
-  }
-
   #signupForm {
     max-width: 400px;
     padding: 20px;
@@ -175,3 +171,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  a {
+    text-decoration: underline;
+  }
+</style>
