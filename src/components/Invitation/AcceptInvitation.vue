@@ -8,10 +8,6 @@
           Loading Invitation
         </h1>
       </div>
-      <div
-        v-if="status === 'ready'"
-        class="invitationBody"
-        v-html="invitationText" />
       <div v-else-if="status === 'error'">
         Network Error. Return
         <router-link to="/profile">
@@ -21,15 +17,7 @@
       <h1 v-else-if="status === 'accepted'">
         Invitation Accepted
       </h1>
-      <h1 v-else-if="status === 'removed'">
-        Invitation Removed
-      </h1>
       <BounceLoader v-else />
-      <ButtonGroup
-        v-if="status === 'ready'"
-        v-on:accept="acceptInvitation"
-        v-on:remove="removeInvitation"
-      />
     </div>
     <div v-else class="heading">
       Please
@@ -40,7 +28,7 @@
       <router-link to="/signup">
         sign up
       </router-link>
-      to view this invitation!
+      to accept this invitation!
     </div>
   </div>
 </template>
@@ -62,7 +50,7 @@ import BounceLoader from '../BounceLoader';
 import ButtonGroup from './ButtonGroup';
 
 export default {
-  name: 'Invitation',
+  name: 'AcceptInvitation',
   props: {
     user: {
       type: Object,
@@ -87,32 +75,19 @@ export default {
   watch: {
     isLoggedIn() {
       if (this.isLoggedIn) {
-        this.getInvitation();
+        this.acceptInvitation();
       }
     },
   },
   mounted() {
     if (this.isLoggedIn) {
-      this.getInvitation();
+      this.acceptInvitation();
     } else {
-      const route = `invitation/${this.$route.params.invitationId}`;
+      const route = `invitation/${this.$route.params.invitationId}/accept`;
       this.$store.commit('setRedirect', route);
     }
   },
   methods: {
-    getInvitation() {
-      this.status = 'loading';
-      api.getInvitation({
-        apiHost: this.apiHost,
-        token: this.user.authToken.token,
-        invitationId: this.$route.params.invitationId,
-      }).then((resp) => {
-        this.invitationText = resp.data;
-        this.status = 'ready';
-      }).catch(() => {
-        this.status = 'error';
-      });
-    },
     acceptInvitation() {
       this.status = 'loading';
       api.acceptInvitation({
@@ -124,19 +99,6 @@ export default {
       }).catch(() => {
         this.status = 'error';
       });
-    },
-    removeInvitation() {
-      this.status = 'loading';
-      api.declineInvitation({
-        apiHost: this.apiHost,
-        token: this.user.authToken.token,
-        invitationId: this.$route.params.invitationId,
-      }).then(() => {
-        this.status = 'removed';
-      }).catch(() => {
-        this.status = 'error';
-      });
-      this.status = 'removed';
     },
   },
 };

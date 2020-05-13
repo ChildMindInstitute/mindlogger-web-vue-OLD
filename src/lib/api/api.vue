@@ -215,7 +215,7 @@ const acceptInvitation = ({ apiHost, token, invitationId }) => axios({
   },
 });
 
-const removeInvitation = ({ apiHost, token, invitationId }) => axios({
+const declineInvitation = ({ apiHost, token, invitationId }) => axios({
   method: 'delete',
   url: `${apiHost}/invitation/${invitationId}`,
   headers: {
@@ -235,6 +235,6 @@ export default {
   addAppletToUser,
   getInvitation,
   acceptInvitation,
-  removeInvitation,
+  declineInvitation,
 };
 </script>

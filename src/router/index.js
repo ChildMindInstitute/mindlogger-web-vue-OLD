@@ -12,6 +12,8 @@ import AppletDashboard from '@/components/AppletDashboard';
 import AllApplets from '@/components/AllApplets';
 import Consent from '@/components/Consent';
 import Invitation from '@/components/Invitation/Invitation';
+import AcceptInvitation from '@/components/Invitation/AcceptInvitation';
+import DeclineInvitation from '@/components/Invitation/DeclineInvitation';
 import Settings from '@/components/Settings';
 import config from '../config';
 
@@ -101,6 +103,16 @@ const router = new Router({
       path: '/invitation/:invitationId',
       name: 'Invitation',
       component: Invitation,
+    },
+    {
+      path: '/invitation/:invitationId/accept',
+      name: 'Invitation',
+      component: AcceptInvitation,
+    },
+    {
+      path: '/invitation/:invitationId/decline',
+      name: 'Invitation',
+      component: DeclineInvitation,
     },
   ],
 });
