@@ -89,7 +89,6 @@ export default {
   },
   methods: {
     declineInvitation() {
-      console.log('User ===============>', this.user);
       this.status = 'loading';
       api.declineInvitation({
         apiHost: this.apiHost,

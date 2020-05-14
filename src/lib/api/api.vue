@@ -207,11 +207,14 @@ const getInvitation = ({ apiHost, token, invitationId }) => axios({
   },
 });
 
-const acceptInvitation = ({ apiHost, token, invitationId }) => axios({
+const acceptInvitation = ({ apiHost, token, email, invitationId }) => axios({
   method: 'post',
   url: `${apiHost}/invitation/${invitationId}/accept`,
   headers: {
     'girder-token': token,
+  },
+  data: {
+    email,
   },
 });
 
