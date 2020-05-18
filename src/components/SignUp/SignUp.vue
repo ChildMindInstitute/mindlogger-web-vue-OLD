@@ -9,19 +9,29 @@
         <b-form-group id="usernameInputGroup">
           <b-form-input id="usernameInput"
                         type="text"
-                        v-model="form.login"
+                        v-model="form.email"
                         required
-                        placeholder="Username"
+                        placeholder="Email"
                         autocomplete="off">
           </b-form-input>
         </b-form-group>
 
-        <b-form-group id="displayNameInputGroup">
-          <b-form-input id="displayNameInput"
+        <b-form-group id="firstNameInputGroup">
+          <b-form-input id="firstNameInput"
                         type="text"
-                        v-model="form.displayName"
+                        v-model="form.firstName"
                         required
-                        placeholder="Display Name"
+                        placeholder="First Name"
+                        autocomplete="off">
+          </b-form-input>
+        </b-form-group>
+
+        <b-form-group id="lastNameInputGroup">
+          <b-form-input id="lastNameInput"
+                        type="text"
+                        v-model="form.lastName"
+                        required
+                        placeholder="Last Name"
                         autocomplete="off">
           </b-form-input>
         </b-form-group>
@@ -50,7 +60,7 @@
         </b-alert>
 
         <b-button type="submit" variant="primary" :disabled="status === 'loading' || !validated">
-          <span v-if="status==='ready'">Submit</span>
+          <span v-if="status==='ready'">Sign Up</span>
           <span v-else>Signing up...</span>
         </b-button>
 
@@ -116,7 +126,7 @@ export default {
         password: '',
         password2: '',
         login: '',
-        displayName: '',
+        firstName: '',
         lastName: '',
       },
       show: true,
@@ -143,8 +153,9 @@ export default {
       e.preventDefault();
       this.status = 'loading';
       api.signUp(this.apiHost, {
-        login: this.form.login,
-        displayName: this.form.displayName,
+        email: this.form.email,
+        firstName: this.form.firstName,
+        lastName: this.form.lastName,
         password: this.form.password,
       }).then((resp) => {
         this.status = 'ready';

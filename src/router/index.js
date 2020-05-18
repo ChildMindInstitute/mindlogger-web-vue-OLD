@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import TakeSurvey from '@/components/TakeSurvey';
 import Login from '@/components/Login/';
 import SignUp from '@/components/SignUp/';
+import ForgotPassword from '@/components/ForgotPassword/';
 import Profile from '@/components/Profile';
 import Landing from '@/components/Landing';
 import Applet from '@/components/Applet';
@@ -11,6 +12,8 @@ import AppletDashboard from '@/components/AppletDashboard';
 import AllApplets from '@/components/AllApplets';
 import Consent from '@/components/Consent';
 import Invitation from '@/components/Invitation/Invitation';
+import AcceptInvitation from '@/components/Invitation/AcceptInvitation';
+import DeclineInvitation from '@/components/Invitation/DeclineInvitation';
 import Settings from '@/components/Settings';
 import config from '../config';
 
@@ -62,6 +65,7 @@ const router = new Router({
       props: {
         apiHost: config.apiHost,
         signupLink: { name: 'SignUp' },
+        forgotLink: { name: 'ForgotPassword' },
       },
     },
     {
@@ -79,6 +83,15 @@ const router = new Router({
       },
     },
     {
+      path: '/forgotpassword',
+      name: 'ForgotPassword',
+      component: ForgotPassword,
+      props: {
+        apiHost: config.apiHost,
+        loginLink: { name: 'Login' },
+      },
+    },
+    {
       path: '/settings',
       name: 'settings',
       component: Settings,
@@ -90,6 +103,16 @@ const router = new Router({
       path: '/invitation/:invitationId',
       name: 'Invitation',
       component: Invitation,
+    },
+    {
+      path: '/invitation/:invitationId/accept',
+      name: 'Invitation',
+      component: AcceptInvitation,
+    },
+    {
+      path: '/invitation/:invitationId/decline',
+      name: 'Invitation',
+      component: DeclineInvitation,
     },
   ],
 });

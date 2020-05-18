@@ -17,7 +17,7 @@
           <b-nav-item-dropdown right v-if="isLoggedIn">
             <!-- Using button-content slot -->
             <template slot="button-content">
-              <em>{{user.login}}</em>
+              <em>{{user.firstName}}</em>
             </template>
             <b-dropdown-item to="/profile">Profile</b-dropdown-item>
             <b-dropdown-item @click="logout">Signout</b-dropdown-item>
@@ -52,3 +52,9 @@ export default {
 };
 </script>
 
+<style lang="scss">
+  .dropdown-toggle::after {
+    margin-left: 0.5em;
+    vertical-align: 0.15em;
+  }
+</style>

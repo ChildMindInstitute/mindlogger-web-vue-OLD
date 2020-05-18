@@ -104,6 +104,13 @@ const signUp = (apiHost, body) => axios({
   },
 });
 
+const resetPassword = ({ apiHost, body }) => axios({
+  method: 'put',
+  url: `${apiHost}/user/password/temporary`,
+  params: {
+    ...body,
+  },
+});
 
 /**
  * ## sendActivityData
@@ -200,15 +207,18 @@ const getInvitation = ({ apiHost, token, invitationId }) => axios({
   },
 });
 
-const acceptInvitation = ({ apiHost, token, invitationId }) => axios({
+const acceptInvitation = ({ apiHost, token, email, invitationId }) => axios({
   method: 'post',
   url: `${apiHost}/invitation/${invitationId}/accept`,
   headers: {
     'girder-token': token,
   },
+  data: {
+    email,
+  },
 });
 
-const removeInvitation = ({ apiHost, token, invitationId }) => axios({
+const declineInvitation = ({ apiHost, token, invitationId }) => axios({
   method: 'delete',
   url: `${apiHost}/invitation/${invitationId}`,
   headers: {
@@ -219,6 +229,7 @@ const removeInvitation = ({ apiHost, token, invitationId }) => axios({
 export default {
   signIn,
   signUp,
+  resetPassword,
   sendActivityData,
   getActivityFromURI,
   getAppletFromURI,
@@ -227,6 +238,6 @@ export default {
   addAppletToUser,
   getInvitation,
   acceptInvitation,
-  removeInvitation,
+  declineInvitation,
 };
 </script>
