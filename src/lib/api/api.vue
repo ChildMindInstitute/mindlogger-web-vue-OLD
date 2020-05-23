@@ -213,7 +213,7 @@ const acceptInvitation = ({ apiHost, token, email, invitationId }) => axios({
   headers: {
     'girder-token': token,
   },
-  data: {
+  params: {
     email,
   },
 });

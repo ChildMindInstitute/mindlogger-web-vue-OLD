@@ -117,7 +117,7 @@ export default {
       this.status = 'loading';
       api.acceptInvitation({
         apiHost: this.apiHost,
-        email: this.user.user.email,
+        email: this.$store.state.userEmail,
         token: this.user.authToken.token,
         invitationId: this.$route.params.invitationId,
       }).then(() => {

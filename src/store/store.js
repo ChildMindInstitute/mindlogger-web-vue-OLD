@@ -15,6 +15,7 @@ Vue.use(Vuex);
 // eslint-disable-next-line
 const getInitialState = () => {
   return {
+    userEmail: '',
     applets: [],
     appletResponses: {},
     branchingCache: {},
@@ -37,6 +38,9 @@ const mutations = {
   },
   setApplets(state, data) {
     state.applets = data;
+  },
+  setUserEmail(state, email) {
+    state.userEmail = email;
   },
   setAppletResponses(state, { appletURI, data }) {
     state.appletResponses[appletURI] = data;
