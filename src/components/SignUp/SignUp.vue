@@ -167,6 +167,7 @@ export default {
         // tell the parent we've logged in with this token info.
         this.$emit('login', { authToken: resp.data.authToken, user: cleanedUser });
         this.$router.push(this.$store.state.redirect);
+        this.$store.commit('setUserEmail', this.form.email);
         this.$store.commit('setRedirect', 'Profile');
       }).catch((err) => {
         this.errors.show = true;

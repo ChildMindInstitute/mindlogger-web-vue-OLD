@@ -155,6 +155,7 @@ export default {
         this.$emit('login', resp.data);
         this.$router.push(this.$store.state.redirect);
         this.$store.commit('setRedirect', 'Profile');
+        this.$store.commit('setUserEmail', this.form.email);
         this.status = 'ready';
       }).catch((err) => {
         this.errors.code = err.response;
