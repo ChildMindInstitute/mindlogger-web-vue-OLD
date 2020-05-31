@@ -21,7 +21,19 @@
         </p>
 
         <!-- change password form -->
-        <div>
+        <b-form @submit="onSubmit">
+          <b-row class="my-1">
+            <b-col sm="3">
+              <label for="input-valid">Old password:</label>
+            </b-col>
+            <b-col sm="9">
+              <b-form-input v-model="oldPassword"
+              type="password"
+              id="input-valid" placeholder="Old password">
+              </b-form-input>
+            </b-col>
+          </b-row>
+
           <b-row class="my-1">
             <b-col sm="3">
               <label for="input-valid">New password:</label>
@@ -47,13 +59,26 @@
           </b-row>
           <b-row class="my-1 mt-3">
             <b-col>
-              <b-button :disabled="!validatePass || validatePass == null || !newPassword.original"
-              variant="success">Submit</b-button>
+              <b-button
+                type="submit"
+                :disabled="!validatePass || !newPassword.original || !oldPassword"
+                variant="success"
+              >
+                Submit
+              </b-button>
             </b-col>
           </b-row>
-        </div>
+        </b-form>
       </div>
-
+      <b-alert
+        :show="dismissCountDown"
+        dismissible
+        :variant="msgType"
+        @dismissed="dismissCountDown=0"
+        @dismiss-count-down="countDownChanged"
+      >
+        {{alertMsg}}
+      </b-alert>
     </div>
     <div v-else>
       Please <router-link to="/login"> log in </router-link> to see the page!
@@ -102,15 +127,19 @@ export default {
         class: 'm1' },
       // appletsFromServer: [],
       status: 'loading',
+      msgType: 'success',
+      alertMsg: '',
       error: {},
       options: [
         { text: 'On', value: true },
         { text: 'Off', value: false },
       ],
+      oldPassword: null,
       newPassword: {
         original: null,
         repeat: null,
       },
+      dismissCountDown: 0,
       appletFields: [
         {
           key: 'image',
@@ -156,7 +185,7 @@ export default {
       });
     },
     validatePass() {
-      if (this.newPassword.original == null && this.newPassword.repeat == null) {
+      if (this.newPassword.original === null && this.newPassword.repeat === null) {
         return null;
       }
       return this.newPassword.original === this.newPassword.repeat;
@@ -166,6 +195,26 @@ export default {
     },
   },
   methods: {
+    countDownChanged(dismissCountDown) {
+      this.dismissCountDown = dismissCountDown;
+    },
+    onSubmit(e) {
+      e.preventDefault();
+      api.updatePassword({
+        apiHost: this.apiHost,
+        token: this.user.authToken.token,
+        oldPassword: this.oldPassword,
+        newPassword: this.newPassword.original,
+      }).then(() => {
+        this.dismissCountDown = 5;
+        this.alertMsg = 'Success!';
+        this.msgType = 'success';
+      }).catch((err) => {
+        this.dismissCountDown = 5;
+        this.alertMsg = err.response.data.message;
+        this.msgType = 'danger';
+      });
+    },
     getApplets() {
       this.status = 'loading';
       api.getAppletsForUser({
