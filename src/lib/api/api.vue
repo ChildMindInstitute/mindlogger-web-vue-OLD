@@ -112,6 +112,18 @@ const resetPassword = ({ apiHost, body }) => axios({
   },
 });
 
+const updatePassword = ({ apiHost, token, oldPassword, newPassword }) => axios({
+  method: 'put',
+  url: `${apiHost}/user/password`,
+  headers: {
+    'Girder-Token': token,
+  },
+  params: {
+    old: oldPassword,
+    new: newPassword,
+  },
+});
+
 /**
  * ## sendActivityData
  *
@@ -230,6 +242,7 @@ export default {
   signIn,
   signUp,
   resetPassword,
+  updatePassword,
   sendActivityData,
   getActivityFromURI,
   getAppletFromURI,
