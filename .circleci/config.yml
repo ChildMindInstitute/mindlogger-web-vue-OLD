@@ -12,7 +12,6 @@ jobs:
       - run: node --version
       - run: npm config set @bit:registry https://node.bitsrc.io
       - run: npm install
-      - run: npm run test
 
   autoDeploy:
     docker:
