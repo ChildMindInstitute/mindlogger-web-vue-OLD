@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.3",
+    "@bit/akeshavan.mindlogger-web.web-integer-input": "0.0.1",
     "@bit/akeshavan.mindlogger-web.circle": "0.0.2",
     "@bit/akeshavan.mindlogger-web.loader": "0.0.3",
     "@bit/akeshavan.mindlogger-web.login": "0.0.10",
