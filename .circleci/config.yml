@@ -38,4 +38,4 @@ workflows:
             - serverInstall
           filters:
             branches:
-              only: circle-ci
+              only: master
