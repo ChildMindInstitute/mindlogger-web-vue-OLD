@@ -10,6 +10,7 @@ jobs:
     steps:
       - checkout
       - run: node --version
+      - run: npm config set @bit:registry https://node.bitsrc.io
       - run: npm install
       - run: npm run test
 
@@ -18,6 +19,7 @@ jobs:
       - image: circleci/node:latest
     steps:
       - checkout
+      - run: npm config set @bit:registry https://node.bitsrc.io
       - run: npm install
       - run: npm run --silent build
       - aws-s3/sync:
