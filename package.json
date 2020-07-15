@@ -11,7 +11,10 @@
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "dev-deploy": "aws s3 --profile mindlogger_aws sync ./dist/ s3://web-dev.mindlogger.org --region us-east-1",
+    "test-deploy": "aws s3 --profile mindlogger_aws sync ./dist/ s3://web-testing.mindlogger.org --region us-east-1",
+    "staging-deploy": "aws s3 --profile mindlogger_aws sync ./dist/ s3://web-staging.mindlogger.org --region us-east-1"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.3",
