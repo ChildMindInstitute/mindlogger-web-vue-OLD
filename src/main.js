@@ -14,6 +14,7 @@ if (env !== 'development') {
   Sentry.init({
     dsn: 'https://8cd0d02f082f46c7aaccf908df2617a7@o414302.ingest.sentry.io/5320597',
     integrations: [new VueIntegration({ Vue, attachProps: true })],
+    environment: env,
   });
 }
 
