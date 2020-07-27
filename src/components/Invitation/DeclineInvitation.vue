@@ -83,7 +83,7 @@ export default {
     if (this.isLoggedIn) {
       this.declineInvitation();
     } else {
-      const route = `invitation/${this.$route.params.invitationId}/accept`;
+      const route = `invitation/${this.$route.params.invitationId}/decline`;
       this.$store.commit('setRedirect', route);
     }
   },
