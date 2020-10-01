@@ -1,0 +1,36 @@
+export default {
+  userWebText: "MindLogger User Web Text ",
+  welcome: "Welcome to MindLogger",
+  participate: "Participate in scientific research studies online! ",
+  getStarted: "Get Started ",
+  home: "Home ",
+  login: "Login",
+  email: "Email",
+  password: "Password",
+  noAccountCreate: "Don't have an account? Create One",
+  forgotPassword: "Forgot password? Reset it",
+  firstName: "First Name",
+  lastName: "Last Name",
+  confirmPassword: "Confirm Password",
+  signUp: "Sign up ",
+  alreadyHaveAccount: "Already have an account? Log in ",
+  thankYou:
+    "Thank you for creating an account with MindLogger. Download MindLogger on an iOS or Android device to get started.",
+  profile: "Profile",
+  signout: "Signout ",
+  settings: "Settings",
+  changePassword: "Change Password ",
+  complexPassword:
+    "Make sure to set a complex password, and don't share it with anyone.",
+  oldPassword: "Old password",
+  newPassword: "New password ",
+  submit: "Submit ",
+  rememberPassword: "Remember password? Log in",
+  emailSent: "An email has been sent ",
+  temporaryAccessToken:
+    "A temporary access token was requested on your behalf. You can access the Girder for Mindlogger (development instance) system at http://api.mindlogger.org#useraccount/5f219b1c7059f0a9bedb5fa9/token/tThGffCUJ2moxgmRQPVgBws7aoEwyIxKBNA41XTgPG7Z6lTwkCr1IQQF9BoC1u5T Once you access the system, you will have the option to update your password. If you did not initiate this temporary access request, you can ignore this email. Temporary access is only available with the link provided and expires 15 minutes after it was requested.",
+  retypePassword: "Retype new password",
+  passwordsDoNotMatch: "Passwords do not match, try again.",
+  passwordChanged: " Password changed.",
+  temporaryAccess: "Temporary Access"
+};
