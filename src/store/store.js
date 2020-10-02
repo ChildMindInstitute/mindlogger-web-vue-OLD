@@ -1,7 +1,7 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import createPersistedState from 'vuex-persistedstate';
-import _ from 'lodash';
+import Vue from "vue";
+import Vuex from "vuex";
+import createPersistedState from "vuex-persistedstate";
+import _ from "lodash";
 
 Vue.use(Vuex);
 
@@ -15,12 +15,13 @@ Vue.use(Vuex);
 // eslint-disable-next-line
 const getInitialState = () => {
   return {
-    userEmail: '',
+    userEmail: "",
     applets: [],
     appletResponses: {},
     branchingCache: {},
     activities: {},
-    redirect: 'Profile',
+    redirect: "Profile",
+    currentLanguage: ""
   };
 };
 
@@ -29,10 +30,13 @@ const state = getInitialState();
 const getters = {
   storeContext() {
     return [];
-  },
+  }
 };
 
 const mutations = {
+  setCurrentLanguage(state, data) {
+    state.currentLanguage = data;
+  },
   setActivities(state, data) {
     state.activities = data;
   },
@@ -45,7 +49,10 @@ const mutations = {
   setAppletResponses(state, { appletURI, data }) {
     state.appletResponses[appletURI] = data;
     // eslint-disable-next-line
-    console.log('committing applet responses', state.appletResponses[appletURI]);
+    console.log(
+      "committing applet responses",
+      state.appletResponses[appletURI]
+    );
   },
   setBranchingCache(state, { key, data }) {
     state.branchingCache[key] = data;
@@ -58,15 +65,14 @@ const mutations = {
     _.map(state, (val, key) => {
       state[key] = newState[key];
     });
-  },
+  }
 };
 
 const actions = {
   /**
    * TODO: remove below and fix Survey component
    */
-  updateListShow() {
-  },
+  updateListShow() {}
 };
 
 export default new Vuex.Store({
@@ -74,5 +80,5 @@ export default new Vuex.Store({
   getters,
   mutations,
   actions,
-  plugins: [createPersistedState()],
+  plugins: [createPersistedState()]
 });

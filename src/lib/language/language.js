@@ -29,6 +29,7 @@ const locale = _.get(store, "state.currentLanguage", browserLanguage);
 // new instance
 export default new VueI18n({
   locale,
+  lazy: true,
   messages: {
     en_US,
     fr_FR

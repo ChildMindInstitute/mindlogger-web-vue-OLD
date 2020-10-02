@@ -1,56 +1,65 @@
 <template name="login">
   <div id="login" class="text-center mb-0">
-    <h1 v-if="useTitle"> Log In </h1>
+    <h1 v-if="useTitle">Log In</h1>
 
     <div id="signupForm" class="container fluid">
-      <b-alert :show="errors.show" variant="danger">{{errors.message}}</b-alert>
+      <b-alert :show="errors.show" variant="danger">{{
+        errors.message
+      }}</b-alert>
       <b-form @submit="onSubmit">
         <b-form-group id="usernameInputGroup">
-          <b-form-input id="email"
-                        v-model="form.email"
-                        required
-                        placeholder="Email">
+          <b-form-input
+            id="email"
+            v-model="form.email"
+            required
+            placeholder="Email"
+          >
           </b-form-input>
         </b-form-group>
         <b-form-group id="passwordInputGroup">
-          <b-form-input id="passwordInput"
-                        type="password"
-                        v-model="form.password"
-                        required
-                        placeholder="Password">
+          <b-form-input
+            id="passwordInput"
+            type="password"
+            v-model="form.password"
+            required
+            :placeholder="$t('password')"
+          >
           </b-form-input>
         </b-form-group>
 
-
-        <b-button type="submit" variant="primary" :disabled="status==='loading'">
-          <span v-if="status==='ready'">Log In</span>
+        <b-button
+          type="submit"
+          variant="primary"
+          :disabled="status === 'loading'"
+        >
+          <span v-if="status === 'ready'">Log In</span>
           <span v-else>Logging in...</span>
         </b-button>
-
       </b-form>
 
       <p class="mt-3" v-if="signupLink">
-        Don't have an account? <router-link :to="signupWithQuery">Create one</router-link>
+        {{ $t("noAccountCreate") }}
+        <router-link :to="signupWithQuery">{{ $t("createOne") }}</router-link>
       </p>
       <p class="mt-3">
-        Forgot password? <router-link :to="forgotLink">Reset it</router-link>
+        {{ $t("forgotPassword") }}
+        <router-link :to="forgotLink">{{ $t("resetIt") }}</router-link>
       </p>
     </div>
-
   </div>
 </template>
 
 <style>
-  #signupForm {
-    max-width: 400px;
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: 0px 0 7px 0px #80808036;
-  }
+#signupForm {
+  max-width: 400px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0px 0 7px 0px #80808036;
+}
 </style>
 
 <script>
-import api from '../../lib/api';
+import api from "../../lib/api";
 
 /**
  * # Login
@@ -73,33 +82,33 @@ import api from '../../lib/api';
  */
 
 export default {
-  name: 'login',
+  name: "login",
   props: {
     /**
      * the girder API endpoint
      */
     apiHost: {
-      type: String,
+      type: String
     },
     signupLink: {
       type: Object,
       default() {
         return {};
-      },
+      }
     },
     forgotLink: {
       type: Object,
       default() {
         return {};
-      },
+      }
     },
     query: {
-      type: Object,
+      type: Object
     },
     useTitle: {
       type: Boolean,
-      default: true,
-    },
+      default: true
+    }
   },
   data() {
     return {
@@ -109,7 +118,7 @@ export default {
        * status of the component, 'ready' or
        * set to 'loading' during login
        */
-      status: 'ready',
+      status: "ready",
       /**
        * ### form
        *
@@ -118,7 +127,7 @@ export default {
        */
       form: {
         email: null,
-        password: null,
+        password: null
       },
       /**
        * ### errors
@@ -129,14 +138,14 @@ export default {
       errors: {
         message: null,
         show: false,
-        code: null,
-      },
+        code: null
+      }
     };
   },
   computed: {
     signupWithQuery() {
       return { ...this.signupLink, query: this.query };
-    },
+    }
   },
   methods: {
     /**
@@ -148,33 +157,38 @@ export default {
      */
     onSubmit(e) {
       e.preventDefault();
-      this.status = 'loading';
-      api.signIn({ apiHost: this.apiHost,
-        user: this.form.email,
-        password: this.form.password }).then((resp) => {
-        this.$emit('login', resp.data);
-        this.$router.push(this.$store.state.redirect);
-        this.$store.commit('setRedirect', 'Profile');
-        this.$store.commit('setUserEmail', this.form.email);
-        this.status = 'ready';
-      }).catch((err) => {
-        this.errors.code = err.response;
-        try {
-          this.errors.message = this.errors.code.data.message;
-        } catch (error) {
-          this.errors.message = err.message;
-        }
+      this.status = "loading";
+      api
+        .signIn({
+          apiHost: this.apiHost,
+          user: this.form.email,
+          password: this.form.password
+        })
+        .then(resp => {
+          this.$emit("login", resp.data);
+          this.$router.push(this.$store.state.redirect);
+          this.$store.commit("setRedirect", "Profile");
+          this.$store.commit("setUserEmail", this.form.email);
+          this.status = "ready";
+        })
+        .catch(err => {
+          this.errors.code = err.response;
+          try {
+            this.errors.message = this.errors.code.data.message;
+          } catch (error) {
+            this.errors.message = err.message;
+          }
 
-        this.errors.show = true;
-        this.status = 'ready';
-      });
-    },
-  },
+          this.errors.show = true;
+          this.status = "ready";
+        });
+    }
+  }
 };
 </script>
 
 <style scoped>
-  a {
-    text-decoration: underline;
-  }
+a {
+  text-decoration: underline;
+}
 </style>

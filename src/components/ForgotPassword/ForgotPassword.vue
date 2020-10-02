@@ -1,32 +1,38 @@
 <template name="signup">
   <div id="signup" class="pt-3 ">
     <div class="">
-    <h1 class="text-center" v-if="useTitle"> Reset Password </h1>
-    <div id="signupForm" class="container fluid">
-      <b-form @submit="onSubmit">
-        <b-alert :show="errors.show" variant="danger">{{errors.message}}</b-alert>
+      <h1 class="text-center" v-if="useTitle">Reset Password</h1>
+      <div id="signupForm" class="container fluid">
+        <b-form @submit="onSubmit">
+          <b-alert :show="errors.show" variant="danger">{{
+            errors.message
+          }}</b-alert>
 
-        <b-form-group id="usernameInputGroup">
-          <b-form-input id="usernameInput"
-                        type="text"
-                        v-model="form.email"
-                        required
-                        placeholder="Email"
-                        autocomplete="off">
-          </b-form-input>
-        </b-form-group>
+          <b-form-group id="usernameInputGroup">
+            <b-form-input
+              id="usernameInput"
+              type="text"
+              v-model="form.email"
+              required
+              placeholder="Email"
+              autocomplete="off"
+            >
+            </b-form-input>
+          </b-form-group>
 
-        <b-button type="submit" variant="primary"> Submit </b-button>
-        <p class="mt-3" v-if="loginLink">
-          Remember Password? <router-link :to="loginWithQuery">Log In</router-link>
-        </p>
+          <b-button type="submit" variant="primary">
+            {{ $t("submit") }}
+          </b-button>
+          <p class="mt-3" v-if="loginLink">
+            {{ $t("rememberPassword") }}
+            <router-link :to="loginWithQuery">{{ $t("login") }}</router-link>
+          </p>
 
-        <div v-if="status==='success'">An email has been sent</div>
-        <div v-if="status==='fail'">That email is not registered</div>
-
-      </b-form>
+          <div v-if="status === 'success'">{{ $t("emailSent") }}</div>
+          <div v-if="status === 'fail'">That email is not registered</div>
+        </b-form>
+      </div>
     </div>
-  </div>
   </div>
 </template>
 <style scoped>
@@ -39,67 +45,70 @@
 </style>
 
 <script>
-import api from '../../lib/api';
+import api from "../../lib/api";
 
 export default {
-  name: 'forgotpassword',
+  name: "forgotpassword",
   props: {
     apiHost: {
-      type: String,
+      type: String
     },
     loginLink: {
       type: Object,
       default() {
         return {};
-      },
+      }
     },
     query: {
-      type: Object,
+      type: Object
     },
     useTitle: {
       type: Boolean,
-      default: true,
-    },
+      default: true
+    }
   },
   data() {
     return {
-      status: 'ready',
+      status: "ready",
       form: {
-        email: '',
+        email: ""
       },
       show: true,
       errors: {
         show: false,
         message: null,
-        code: null,
-      },
+        code: null
+      }
     };
   },
   computed: {
     loginWithQuery() {
       return { ...this.loginLink, query: this.query };
-    },
+    }
   },
   methods: {
     onSubmit(e) {
       e.preventDefault();
-      this.status = 'loading';
+      this.status = "loading";
 
-      api.resetPassword({
-        apiHost: this.apiHost,
-        body: {
-          email: this.form.email,
-        },
-      }).then((resp) => {
-        window.console.log(resp);
-        this.status = 'success';
-        this.$emit('sendRequest', null);
-      }).catch((err) => {
-        window.console.warn(err);
-        this.status = 'fail';
-        this.error = e.message;
-      });
-    },
-  },
+      api
+        .resetPassword({
+          apiHost: this.apiHost,
+          body: {
+            email: this.form.email
+          }
+        })
+        .then(resp => {
+          window.console.log(resp);
+          this.status = "success";
+          this.$emit("sendRequest", null);
+        })
+        .catch(err => {
+          window.console.warn(err);
+          this.status = "fail";
+          this.error = e.message;
+        });
+    }
+  }
 };
 </script>
