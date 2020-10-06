@@ -1,7 +1,7 @@
 <template name="signup">
   <div id="signup" class="pt-3 ">
     <div class="">
-      <h1 class="text-center" v-if="useTitle">Reset Password</h1>
+      <h1 class="text-center" v-if="useTitle">{{ $t("resetPassword") }}</h1>
       <div id="signupForm" class="container fluid">
         <b-form @submit="onSubmit">
           <b-alert :show="errors.show" variant="danger">{{
@@ -29,7 +29,7 @@
           </p>
 
           <div v-if="status === 'success'">{{ $t("emailSent") }}</div>
-          <div v-if="status === 'fail'">That email is not registered</div>
+          <div v-if="status === 'fail'">{{ $t("emailNotRegistered") }}</div>
         </b-form>
       </div>
     </div>

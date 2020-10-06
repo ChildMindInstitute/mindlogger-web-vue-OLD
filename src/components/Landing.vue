@@ -11,13 +11,11 @@
         src="@/assets/undraw_data_xmfy.svg"
       />
       <div v-if="!isLoggedIn">
-        <p class="mt-3">
-          To get started:
-        </p>
+        <p class="mt-3">{{ $t("togetStarted") }} :</p>
         <b-button :to="{ name: 'Login', query }" variant="primary" size="lg">{{
           $t("login")
         }}</b-button>
-        or
+        {{ $t("or") }}
         <b-button :to="{ name: 'SignUp', query }" variant="success" size="lg">{{
           $t("signUp")
         }}</b-button>

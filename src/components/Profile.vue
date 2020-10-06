@@ -17,7 +17,7 @@
       <hr />
 
       <div v-if="isMobile()">
-        Download MindLogger to get started.
+        {{ $t("downloadMindlogger") }}
         <div>
           <a
             href="https://play.google.com/store/apps/details?id=lab.childmindinstitute.data&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"
@@ -44,7 +44,8 @@
       </div>
     </div>
     <div v-else>
-      Please <router-link to="/login"> log in </router-link> to see the page!
+      {{ $t("please") }} <router-link to="/login"> log in </router-link>
+      {{ $t("toSeeThePage") }}
     </div>
   </div>
 </template>

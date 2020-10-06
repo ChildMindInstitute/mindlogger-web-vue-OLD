@@ -97,8 +97,9 @@
       </b-alert>
     </div>
     <div v-else>
-      Please <router-link to="/login"> {{ $t("login") }} </router-link> to see
-      the page!
+      {{ $t("please") }}
+      <router-link to="/login"> {{ $t("login") }} </router-link>
+      {{ $t("toSeeThePage") }}
     </div>
   </div>
 </template>

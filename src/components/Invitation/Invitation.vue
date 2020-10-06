@@ -3,7 +3,7 @@
     <div v-if="isLoggedIn">
       <div v-if="status === 'loading'" class="heading">
         <h1>
-          Loading Invitation
+          {{ $t("loadingInvitation") }}
         </h1>
       </div>
       <div
@@ -12,16 +12,16 @@
         v-html="invitationText"
       />
       <div v-else-if="status === 'error'">
-        Network Error. Return
+        {{ $t("networkError") }}
         <router-link to="/profile">
           {{ $t("home") }}
         </router-link>
       </div>
       <h1 v-else-if="status === 'accepted'">
-        Invitation Accepted
+        {{ $t("invitationAccepted") }}
       </h1>
       <h1 v-else-if="status === 'removed'">
-        Invitation Removed
+        {{ $t("invitationRemoved") }}
       </h1>
       <BounceLoader v-else />
       <ButtonGroup
@@ -31,15 +31,15 @@
       />
     </div>
     <div v-else class="heading">
-      Please
+      {{ $t("please") }}
       <router-link to="/login">
         {{ $t("login") }}
       </router-link>
-      or
+      {{ $t("or") }}
       <router-link to="/signup">
         {{ $t("signup") }}
       </router-link>
-      to view this invitation!
+      {{ $t("toViewInvitation") }}
     </div>
   </div>
 </template>

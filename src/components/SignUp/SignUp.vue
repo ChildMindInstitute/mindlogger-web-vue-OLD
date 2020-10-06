@@ -68,7 +68,7 @@
             </b-form-input>
           </b-form-group>
           <b-alert :show="!validated" variant="danger">
-            Make sure your passwords match!
+            {{ $t("makeSureMatch") }}
           </b-alert>
 
           <b-button
@@ -77,7 +77,7 @@
             :disabled="status === 'loading' || !validated"
           >
             <span v-if="status === 'ready'">{{ $t("signup") }}</span>
-            <span v-else>Signing up...</span>
+            <span v-else>{{ $t("signingUp") }}...</span>
           </b-button>
 
           <p class="mt-3" v-if="loginLink">

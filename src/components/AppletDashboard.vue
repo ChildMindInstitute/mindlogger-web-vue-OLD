@@ -7,82 +7,78 @@
       <b-alert show variant="danger">Something went wrong!</b-alert>
     </div> -->
     <div v-else-if="!responses.length && this.status === 'ready'">
-      You haven't saved any data yet.
+      {{ $t("notSavedData") }}
     </div>
     <div v-else class="mb-3">
-        <div>
-          <div class="text-right text-muted" v-if="status==='loading' && responses.length">
-            <small>refreshing
-            <i class="fas fa-sync fa-spin ml-1"></i></small>
-          </div>
-          <div v-if="status === 'error'">
-            <b-alert show variant="danger">Something went wrong!</b-alert>
-          </div>
-          <h1>Your Data</h1>
-          <p class="lead">
-            {{applet.name}}
-          </p>
+      <div>
+        <div
+          class="text-right text-muted"
+          v-if="status === 'loading' && responses.length"
+        >
+          <small>refreshing <i class="fas fa-sync fa-spin ml-1"></i></small>
         </div>
-        <div>
-          <v-calendar
-          is-expanded
-          :attributes="calendarAttributes"
-          >
-          </v-calendar>
+        <div v-if="status === 'error'">
+          <b-alert show variant="danger">{{ $t("wentWrong") }}</b-alert>
         </div>
-        <div class="mt-3" v-for="(val, act) in datatables" :key="act">
-          <ActivityDash :data="val" :activityUrl="act"/>
-        </div>
+        <h1>Your Data</h1>
+        <p class="lead">
+          {{ applet.name }}
+        </p>
+      </div>
+      <div>
+        <v-calendar is-expanded :attributes="calendarAttributes"> </v-calendar>
+      </div>
+      <div class="mt-3" v-for="(val, act) in datatables" :key="act">
+        <ActivityDash :data="val" :activityUrl="act" />
+      </div>
     </div>
-
   </div>
 </template>
 
 <style></style>
 
 <script>
-import moment from 'moment';
-import Vue from 'vue';
-import '@babel/polyfill';
-import VCalendar from 'v-calendar';
-import _ from 'lodash';
-import api from '../lib/api';
-import BounceLoader from './BounceLoader';
-import ActivityDash from './Visualization/ActivityDash';
-
+import moment from "moment";
+import Vue from "vue";
+import "@babel/polyfill";
+import VCalendar from "v-calendar";
+import _ from "lodash";
+import api from "../lib/api";
+import BounceLoader from "./BounceLoader";
+import ActivityDash from "./Visualization/ActivityDash";
 
 Vue.use(VCalendar, {
-  firstDayOfWeek: 2, // Monday
+  firstDayOfWeek: 2 // Monday
 });
 
 export default {
-  name: 'appletDashboard',
+  name: "appletDashboard",
   props: {
     isLoggedIn: {
-      type: Boolean,
+      type: Boolean
     },
     user: {
-      type: Object,
+      type: Object
     },
     apiHost: {
-      type: String,
+      type: String
     },
     appletUrl: {
-      type: String,
+      type: String
     },
     applet: {
-      type: [Object, String],
-    },
+      type: [Object, String]
+    }
   },
   components: {
     BounceLoader,
-    ActivityDash,
+    ActivityDash
   },
   data() {
     return {
       // responseDates: [],
       responses: [],
-      status: 'loading',
+      status: "loading"
       // datatables: {},
     };
   },
@@ -107,23 +103,25 @@ export default {
           this.getUserResponses();
         }
       }
-    },
+    }
   },
   computed: {
     calendarAttributes() {
-      return [{
-        key: 'tester',
-        dot: true,
-        dates: this.responseDates,
-      },
-      {
-        key: 'today',
-        highlight: {
-          color: 'blue',
-          fillMode: 'light',
+      return [
+        {
+          key: "tester",
+          dot: true,
+          dates: this.responseDates
         },
-        dates: new Date(),
-      }];
+        {
+          key: "today",
+          highlight: {
+            color: "blue",
+            fillMode: "light"
+          },
+          dates: new Date()
+        }
+      ];
     },
     responseDates() {
       if (this.responses.length) {
@@ -133,55 +131,64 @@ export default {
     },
     datatables() {
       return this.createDataTables();
-    },
+    }
   },
   methods: {
     getUserResponses() {
-      this.status = 'loading';
+      this.status = "loading";
       /**
        * if there is something in the store, use it.
        */
       if (this.$store.state.appletResponses[this.appletUrl]) {
         this.responses = this.$store.state.appletResponses[this.appletUrl];
       }
-      api.getAppletFromURI({
-        apiHost: this.apiHost,
-        token: this.user.authToken.token,
-        URI: this.appletUrl,
-        // eslint-disable-next-line
-      }).then((resp) => {
-        /**
-         * TODO: this is messy: resp.data.applet._id.split('/')[1]
-         * lets fix this in the future.
-         */
-        return api.getUserDataFromApplet({
+      api
+        .getAppletFromURI({
           apiHost: this.apiHost,
           token: this.user.authToken.token,
-          userId: this.user.user._id,
-          appletId: resp.data.applet._id.split('/')[1],
+          URI: this.appletUrl
+          // eslint-disable-next-line
+        })
+        .then(resp => {
+          /**
+           * TODO: this is messy: resp.data.applet._id.split('/')[1]
+           * lets fix this in the future.
+           */
+          return api.getUserDataFromApplet({
+            apiHost: this.apiHost,
+            token: this.user.authToken.token,
+            userId: this.user.user._id,
+            appletId: resp.data.applet._id.split("/")[1]
+          });
+        })
+        .then(resp => {
+          const responses = resp.data;
+          this.$store.commit("setAppletResponses", {
+            appletURI: this.appletUrl,
+            data: responses
+          });
+          this.responses = responses;
+          this.status = "ready";
+          this.$forceUpdate();
+        })
+        .catch(() => {
+          this.status = "error";
         });
-      }).then((resp) => {
-        const responses = resp.data;
-        this.$store.commit('setAppletResponses', { appletURI: this.appletUrl, data: responses });
-        this.responses = responses;
-        this.status = 'ready';
-        this.$forceUpdate();
-      }).catch(() => {
-        this.status = 'error';
-      });
     },
     parseDates(responses) {
       // TODO: make these UNIQUE days.
       // eslint-disable-next-line
-      const responseDates = _.map(responses, (r) => {
+      const responseDates = _.map(responses, r => {
         // TODO: use a nice ISO-formatted date that isn't updated
         // when the user's response is for a different day than when
         // they responded.
-        return moment(r.updated).startOf('day').toDate();
+        return moment(r.updated)
+          .startOf("day")
+          .toDate();
       });
       // this.$store.commit('setAppletResponseDates',
       // { appletURI: this.appletUrl, data: responseDates });
-      this.status = 'ready';
+      this.status = "ready";
       // this.createDataTables();
       return responseDates;
     },
@@ -197,7 +204,7 @@ export default {
     createDataTables() {
       // go through all the responses and group them by activity and item.
       const tables = {};
-      _.map(this.responses, (resp) => {
+      _.map(this.responses, resp => {
         const meta = resp.meta;
 
         // initialize a spot for the activity URI
@@ -218,13 +225,13 @@ export default {
           // item metadata, not the numeric response
           tables[meta.activity.url][key].push({
             response: val,
-            time_of_response: moment(resp.updated).toDate() });
+            time_of_response: moment(resp.updated).toDate()
+          });
         });
       });
       // this.datatables = tables;
       return tables;
-    },
-  },
+    }
+  }
 };
 </script>
-
