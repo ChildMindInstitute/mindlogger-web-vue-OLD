@@ -108,7 +108,11 @@ export default {
           invitationId: this.$route.params.invitationId
         })
         .then(resp => {
-          this.invitationText = resp.data;
+          const { body, lang } = resp.data;
+          this.invitationText = body;
+          let landFormatted = lang === "fr" ? "fr_FR" : "en_US";
+          this.$i18n.locale = landFormatted;
+          this.$store.commit("setCurrentLanguage", landFormatted);
           this.status = "ready";
         })
         .catch(() => {
