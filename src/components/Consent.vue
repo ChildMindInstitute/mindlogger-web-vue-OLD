@@ -1,23 +1,23 @@
 <template>
   <div class="mt-3 pt-3 container">
     <div key="currentStep" v-if="steps.length > currentStep">
-      <progressive-img style="max-width:300px"
-      :placeholder="placeholder"
-      :src="steps[currentStep].image"
+      <progressive-img
+        style="max-width:300px"
+        :placeholder="placeholder"
+        :src="steps[currentStep].image"
       />
-      <h1 class="mt-3 mb-3">{{steps[currentStep].title}}</h1>
-      <p v-html="steps[currentStep].text">
-      </p>
+      <h1 class="mt-3 mb-3">{{ steps[currentStep].title }}</h1>
+      <p v-html="steps[currentStep].text"></p>
     </div>
 
     <div v-if="currentStep == steps.length && !showLogin">
       <h1>
         <img
-         class="img"
-         style="width:50px"
-         src="https://parkinsonmpower.org/static/images/Consent.svg"
-         />
-        Consent Form
+          class="img"
+          style="width:50px"
+          src="https://parkinsonmpower.org/static/images/Consent.svg"
+        />
+        {{ $t("consentForm") }}
       </h1>
       <p class="text-justify" v-html="fullConsentForm"></p>
     </div>
@@ -26,81 +26,107 @@
     <div v-if="showLogin" class="mt-3 pt-3">
       <h1>Thanks!</h1>
       <p class="lead">
-        You're nearly there.
-        To get started, you'll need to <a href="#" @click="mode='signup'">
-          <b v-if="mode==='signup'" class="text-danger">sign up</b>
+        {{ $t("nearlyThere") }} {{ $t("youllNeedTo") }}
+        <a href="#" @click="mode = 'signup'">
+          <b v-if="mode === 'signup'" class="text-danger">sign up</b>
           <span v-else>sign up</span>
         </a>
-        or <a href="#" @click="mode='login'">
-          <b v-if="mode==='login'" class="text-danger">login</b>
+        or
+        <a href="#" @click="mode = 'login'">
+          <b v-if="mode === 'login'" class="text-danger">login</b>
           <span v-else>login</span>
         </a>
       </p>
-      <sign-up v-if="mode==='signup'" :useTitle="false" class="noPadding" :loginLink="null"
-      :apiHost="apiHost" :redirect="redirect" v-on:login="emitLogin"/>
-      <login v-if="mode==='login'" :useTitle="false" class="noPadding" :signupLink="null"
-      :apiHost="apiHost" :redirect="redirect" v-on:login="emitLogin"/>
+      <sign-up
+        v-if="mode === 'signup'"
+        :useTitle="false"
+        class="noPadding"
+        :loginLink="null"
+        :apiHost="apiHost"
+        :redirect="redirect"
+        v-on:login="emitLogin"
+      />
+      <login
+        v-if="mode === 'login'"
+        :useTitle="false"
+        class="noPadding"
+        :signupLink="null"
+        :apiHost="apiHost"
+        :redirect="redirect"
+        v-on:login="emitLogin"
+      />
     </div>
 
     <!-- Navigation buttons -->
     <div class="navigator mt-3 pt-3" v-if="!showLogin">
-      <b-button size="lg" variant="outline-secondary" v-if="currentStep" @click="decrement">
-        Back</b-button>
-      <b-button size="lg" variant="outline-success" v-if="currentStep < steps.length"
-        @click="increment">
-        Next
+      <b-button
+        size="lg"
+        variant="outline-secondary"
+        v-if="currentStep"
+        @click="decrement"
+      >
+        Back</b-button
+      >
+      <b-button
+        size="lg"
+        variant="outline-success"
+        v-if="currentStep < steps.length"
+        @click="increment"
+      >
+        {{ $t("next") }}
       </b-button>
-      <b-button size="lg"
-       variant="primary"
-       v-if="currentStep == steps.length"
-       @click="doNextStep()"
-       >
-        I consent
+      <b-button
+        size="lg"
+        variant="primary"
+        v-if="currentStep == steps.length"
+        @click="doNextStep()"
+      >
+        {{ $t("iConsent") }}
       </b-button>
     </div>
   </div>
 </template>
 
 <style>
-  .noPadding {
-    padding-top: 0!important;
-    margin-top: 0!important;
-  }
+.noPadding {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
 </style>
 
 <script>
 // import axios from 'axios';
 // import _ from 'lodash';
-import Vue from 'vue';
-import VueProgressiveImage from 'vue-progressive-image';
-import SignUp from './SignUp';
-import Login from './Login';
-import api from '../lib/api/';
-
+import Vue from "vue";
+import VueProgressiveImage from "vue-progressive-image";
+import SignUp from "./SignUp";
+import Login from "./Login";
+import api from "../lib/api/";
 
 Vue.use(VueProgressiveImage);
 
 export default {
-  name: 'Consent',
+  name: "Consent",
   props: {
     isLoggedIn: {
-      type: Boolean,
+      type: Boolean
     },
     apiHost: {
-      type: String,
+      type: String
     },
     user: {
-      type: Object,
-    },
+      type: Object
+    }
   },
   components: {
     SignUp,
-    Login,
+    Login
   },
   data() {
     return {
       // eslint-disable-next-line
-      placeholder: 'iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAQAAADTdEb+AAACIElEQVR42u3SQQ0AAAgDMeZf9DBBwqeVcLm0A+diLIyFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2NhLBEwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxsJYxsJYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC2MZC2NhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAs/i3/GFbzJBm6pwAAAABJRU5ErkJggg==',
+      placeholder:
+        "iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAQAAADTdEb+AAACIElEQVR42u3SQQ0AAAgDMeZf9DBBwqeVcLm0A+diLIyFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2NhLBEwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxsJYxsJYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC2MZC2NhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAs/i3/GFbzJBm6pwAAAABJRU5ErkJggg==",
       currentStep: 0,
       fullConsentForm: `
        <div id="terms"><h4 style="text-align: center;">
@@ -123,43 +149,47 @@ export default {
       `,
       steps: [
         {
-          title: 'About the Study',
-          image: 'https://parkinsonmpower.org/static/images/about%20the%20study.svg',
+          title: "About the Study",
+          image:
+            "https://parkinsonmpower.org/static/images/about%20the%20study.svg",
           text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu sagittis leo,
           sit amet consectetur mi. Donec volutpat rutrum massa et luctus.
           Fusce ac dui quam. Nam a nibh porttitor, tincidunt libero id, condimentum velit.
           Praesent ultricies consectetur nulla vel pharetra. Fusce auctor viverra fringilla.
           Duis euismod enim eu quam tincidunt, sed faucibus leo placerat.
-          Pellentesque et justo a orci dictum pulvinar eleifend at nisl. Integer eu purus sapien.`,
+          Pellentesque et justo a orci dictum pulvinar eleifend at nisl. Integer eu purus sapien.`
         },
         {
-          title: 'How does the study work?',
-          image: 'https://parkinsonmpower.org/static/images/procedures%20activities.svg',
+          title: "How does the study work?",
+          image:
+            "https://parkinsonmpower.org/static/images/procedures%20activities.svg",
           text: `Integer vel diam a lorem mattis tristique at vel magna. Etiam nunc nunc,
           vehicula in mauris vel, gravida pellentesque leo. Lorem ipsum dolor sit amet,
           consectetur adipiscing elit. Quisque orci elit, mollis at massa non, tempor
           posuere turpis. Sed lacinia eros orci, quis efficitur justo euismod eget.
           In ornare vel nisi at fringilla.
-          `,
+          `
         },
         {
-          title: 'How long does it last?',
-          image: 'https://parkinsonmpower.org/static/images/how%20long%20does%20it%20last.svg',
+          title: "How long does it last?",
+          image:
+            "https://parkinsonmpower.org/static/images/how%20long%20does%20it%20last.svg",
           text: `<p>We will ask you to participate for 2 weeks every three months.</p>
-          <p>We would like you to participate for 2 years, but you can participate as long as you like.</p>`,
+          <p>We would like you to participate for 2 years, but you can participate as long as you like.</p>`
         },
         {
-          title: 'What are the benefits and risks?',
-          image: 'https://parkinsonmpower.org/static/images/benefits%20and%20risks.svg',
+          title: "What are the benefits and risks?",
+          image:
+            "https://parkinsonmpower.org/static/images/benefits%20and%20risks.svg",
           text: `Integer vel diam a lorem mattis tristique at vel magna. Etiam nunc nunc,
           vehicula in mauris vel, gravida pellentesque leo. Lorem ipsum dolor sit amet,
           consectetur adipiscing elit. Quisque orci elit, mollis at massa non, tempor
           posuere turpis. Sed lacinia eros orci, quis efficitur justo euismod eget.
-          In ornare vel nisi at fringilla.`,
-        },
+          In ornare vel nisi at fringilla.`
+        }
       ],
       showLogin: false,
-      mode: 'signup',
+      mode: "signup"
     };
   },
   computed: {
@@ -167,8 +197,12 @@ export default {
       return this.$route.params.inviteURL;
     },
     redirect() {
-      return { name: 'Applet', params: { appletId: this.appletURL }, query: { ...this.query, consent: true } };
-    },
+      return {
+        name: "Applet",
+        params: { appletId: this.appletURL },
+        query: { ...this.query, consent: true }
+      };
+    }
   },
   mounted() {
     // cache all images
@@ -195,19 +229,21 @@ export default {
       }
     },
     addAppletToUser(appletId, user) {
-      api.addAppletToUser({ apiHost: this.apiHost,
-        appletId: encodeURI(appletId),
-        token: user.authToken.token })
+      api
+        .addAppletToUser({
+          apiHost: this.apiHost,
+          appletId: encodeURI(appletId),
+          token: user.authToken.token
+        })
         // eslint-disable-next-line
-        .then((resp) => {
+        .then(resp => {
           // console.log('added a new applet', resp);
         });
     },
     emitLogin(loginData) {
-      this.$emit('login', loginData);
+      this.$emit("login", loginData);
       this.addAppletToUser(this.appletURL, loginData);
-    },
-  },
+    }
+  }
 };
 </script>
-

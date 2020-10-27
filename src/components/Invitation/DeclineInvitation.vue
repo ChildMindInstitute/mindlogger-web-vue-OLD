@@ -1,17 +1,15 @@
 <template>
   <div class="mt-3 pt-3 container">
     <div v-if="isLoggedIn">
-      <div
-        v-if="status === 'loading'"
-        class="heading">
+      <div v-if="status === 'loading'" class="heading">
         <h1>
-          Loading Invitation
+          {{ $t("loadingInvitation") }}
         </h1>
       </div>
       <div v-else-if="status === 'error'">
-        Network Error. Return
+        {{ $t("networkError") }}
         <router-link to="/profile">
-          home
+          {{ $t("home") }}
         </router-link>
       </div>
       <h1 v-else-if="status === 'declined'">
@@ -20,56 +18,56 @@
       <BounceLoader v-else />
     </div>
     <div v-else class="heading">
-      Please
+      {{ $t("please") }}
       <router-link to="/login">
-        log in
+        {{ $t("login") }}
       </router-link>
-      or
+      {{ $t("or") }}
       <router-link to="/signup">
-        sign up
+        {{ $t("signup") }}
       </router-link>
-      to decline this invitation!
+      {{ $t("toDeclineThisInvitation") }}
     </div>
   </div>
 </template>
 
 <style>
-  .invitationBody *{
-    text-align: left;
-    font-size: 16px;
-  }
+.invitationBody * {
+  text-align: left;
+  font-size: 16px;
+}
 
-  .invitationBody {
-    text-align: left;
-  }
+.invitationBody {
+  text-align: left;
+}
 </style>
 
 <script>
-import api from '../../lib/api/';
-import BounceLoader from '../BounceLoader';
-import ButtonGroup from './ButtonGroup';
+import api from "../../lib/api/";
+import BounceLoader from "../BounceLoader";
+import ButtonGroup from "./ButtonGroup";
 
 export default {
-  name: 'DeclineInvitation',
+  name: "DeclineInvitation",
   props: {
     user: {
-      type: Object,
+      type: Object
     },
     isLoggedIn: {
-      type: Boolean,
+      type: Boolean
     },
     apiHost: {
-      type: String,
-    },
+      type: String
+    }
   },
   components: {
     ButtonGroup,
-    BounceLoader,
+    BounceLoader
   },
   data() {
     return {
-      status: 'loading',
-      invitationText: '',
+      status: "loading",
+      invitationText: ""
     };
   },
   watch: {
@@ -77,29 +75,32 @@ export default {
       if (this.isLoggedIn) {
         this.declineInvitation();
       }
-    },
+    }
   },
   mounted() {
     if (this.isLoggedIn) {
       this.declineInvitation();
     } else {
       const route = `invitation/${this.$route.params.invitationId}/decline`;
-      this.$store.commit('setRedirect', route);
+      this.$store.commit("setRedirect", route);
     }
   },
   methods: {
     declineInvitation() {
-      this.status = 'loading';
-      api.declineInvitation({
-        apiHost: this.apiHost,
-        token: this.user.authToken.token,
-        invitationId: this.$route.params.invitationId,
-      }).then(() => {
-        this.status = 'declined';
-      }).catch(() => {
-        this.status = 'error';
-      });
-    },
-  },
+      this.status = "loading";
+      api
+        .declineInvitation({
+          apiHost: this.apiHost,
+          token: this.user.authToken.token,
+          invitationId: this.$route.params.invitationId
+        })
+        .then(() => {
+          this.status = "declined";
+        })
+        .catch(() => {
+          this.status = "error";
+        });
+    }
+  }
 };
 </script>

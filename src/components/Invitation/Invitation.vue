@@ -1,28 +1,27 @@
 <template>
   <div class="mt-3 pt-3 container">
     <div v-if="isLoggedIn">
-      <div
-        v-if="status === 'loading'"
-        class="heading">
+      <div v-if="status === 'loading'" class="heading">
         <h1>
-          Loading Invitation
+          {{ $t("loadingInvitation") }}
         </h1>
       </div>
       <div
         v-if="status === 'ready'"
         class="invitationBody"
-        v-html="invitationText" />
+        v-html="invitationText"
+      />
       <div v-else-if="status === 'error'">
-        Network Error. Return
+        {{ $t("networkError") }}
         <router-link to="/profile">
-          home
+          {{ $t("home") }}
         </router-link>
       </div>
       <h1 v-else-if="status === 'accepted'">
-        Invitation Accepted
+        {{ $t("invitationAccepted") }}
       </h1>
       <h1 v-else-if="status === 'removed'">
-        Invitation Removed
+        {{ $t("invitationRemoved") }}
       </h1>
       <BounceLoader v-else />
       <ButtonGroup
@@ -32,56 +31,56 @@
       />
     </div>
     <div v-else class="heading">
-      Please
+      {{ $t("please") }}
       <router-link to="/login">
-        log in
+        {{ $t("login") }}
       </router-link>
-      or
+      {{ $t("or") }}
       <router-link to="/signup">
-        sign up
+        {{ $t("signup") }}
       </router-link>
-      to view this invitation!
+      {{ $t("toViewInvitation") }}
     </div>
   </div>
 </template>
 
 <style>
-  .invitationBody *{
-    text-align: left;
-    font-size: 16px;
-  }
+.invitationBody * {
+  text-align: left;
+  font-size: 16px;
+}
 
-  .invitationBody {
-    text-align: left;
-  }
+.invitationBody {
+  text-align: left;
+}
 </style>
 
 <script>
-import api from '../../lib/api/';
-import BounceLoader from '../BounceLoader';
-import ButtonGroup from './ButtonGroup';
+import api from "../../lib/api/";
+import BounceLoader from "../BounceLoader";
+import ButtonGroup from "./ButtonGroup";
 
 export default {
-  name: 'Invitation',
+  name: "Invitation",
   props: {
     user: {
-      type: Object,
+      type: Object
     },
     isLoggedIn: {
-      type: Boolean,
+      type: Boolean
     },
     apiHost: {
-      type: String,
-    },
+      type: String
+    }
   },
   components: {
     ButtonGroup,
-    BounceLoader,
+    BounceLoader
   },
   data() {
     return {
-      status: 'loading',
-      invitationText: '',
+      status: "loading",
+      invitationText: ""
     };
   },
   watch: {
@@ -89,56 +88,69 @@ export default {
       if (this.isLoggedIn) {
         this.getInvitation();
       }
-    },
+    }
   },
   mounted() {
     if (this.isLoggedIn) {
       this.getInvitation();
     } else {
       const route = `invitation/${this.$route.params.invitationId}`;
-      this.$store.commit('setRedirect', route);
+      this.$store.commit("setRedirect", route);
     }
   },
   methods: {
     getInvitation() {
-      this.status = 'loading';
-      api.getInvitation({
-        apiHost: this.apiHost,
-        token: this.user.authToken.token,
-        invitationId: this.$route.params.invitationId,
-      }).then((resp) => {
-        this.invitationText = resp.data;
-        this.status = 'ready';
-      }).catch(() => {
-        this.status = 'error';
-      });
+      this.status = "loading";
+      api
+        .getInvitation({
+          apiHost: this.apiHost,
+          token: this.user.authToken.token,
+          invitationId: this.$route.params.invitationId
+        })
+        .then(resp => {
+          const { body, lang } = resp.data;
+          this.invitationText = body;
+          let landFormatted = lang === "fr" ? "fr_FR" : "en_US";
+          this.$i18n.locale = landFormatted;
+          this.$store.commit("setCurrentLanguage", landFormatted);
+          this.status = "ready";
+        })
+        .catch(() => {
+          this.status = "error";
+        });
     },
     acceptInvitation() {
-      this.status = 'loading';
-      api.acceptInvitation({
-        apiHost: this.apiHost,
-        email: this.$store.state.userEmail,
-        token: this.user.authToken.token,
-        invitationId: this.$route.params.invitationId,
-      }).then(() => {
-        this.status = 'accepted';
-      }).catch(() => {
-        this.status = 'error';
-      });
+      this.status = "loading";
+      api
+        .acceptInvitation({
+          apiHost: this.apiHost,
+          email: this.$store.state.userEmail,
+          token: this.user.authToken.token,
+          invitationId: this.$route.params.invitationId
+        })
+        .then(() => {
+          this.status = "accepted";
+        })
+        .catch(() => {
+          this.status = "error";
+        });
     },
     removeInvitation() {
-      this.status = 'loading';
-      api.declineInvitation({
-        apiHost: this.apiHost,
-        token: this.user.authToken.token,
-        invitationId: this.$route.params.invitationId,
-      }).then(() => {
-        this.status = 'removed';
-      }).catch(() => {
-        this.status = 'error';
-      });
-      this.status = 'removed';
-    },
-  },
+      this.status = "loading";
+      api
+        .declineInvitation({
+          apiHost: this.apiHost,
+          token: this.user.authToken.token,
+          invitationId: this.$route.params.invitationId
+        })
+        .then(() => {
+          this.status = "removed";
+        })
+        .catch(() => {
+          this.status = "error";
+        });
+      this.status = "removed";
+    }
+  }
 };
 </script>

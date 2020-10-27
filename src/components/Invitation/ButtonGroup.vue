@@ -4,46 +4,48 @@
       @click="triggerAcceptInvitation"
       class="button"
       variant="success"
-      size="lg">
-      Accept Invitation
+      size="lg"
+    >
+      {{ $t("acceptInvitation") }}
     </b-button>
     <b-button
       @click="triggerRemoveInvitation"
       class="button"
       variant="danger"
-      size="lg">
-      Decline Invitation
+      size="lg"
+    >
+      {{ $t("declineInvitation") }}
     </b-button>
   </div>
 </template>
 
 <style scoped>
-  .button {
-    margin: 4px;
-  }
+.button {
+  margin: 4px;
+}
 </style>
 
 <script>
 export default {
-  name: 'ButtonGroup',
+  name: "ButtonGroup",
   props: {
     invitationId: {
-      type: String,
+      type: String
     },
     status: {
-      type: String,
+      type: String
     },
     apiHost: {
-      type: String,
-    },
+      type: String
+    }
   },
   methods: {
     triggerAcceptInvitation() {
-      this.$emit('accept');
+      this.$emit("accept");
     },
     triggerRemoveInvitation() {
-      this.$emit('remove');
-    },
-  },
+      this.$emit("remove");
+    }
+  }
 };
 </script>

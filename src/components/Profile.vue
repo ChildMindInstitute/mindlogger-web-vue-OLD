@@ -1,119 +1,128 @@
 <template>
   <div class="mt-3 pt-3 container">
     <div v-if="isLoggedIn">
-
       <!-- top thing with avatar and username's profile -->
       <div class="heading">
         <h1>
-          <b-img v-bind="mainProps" rounded="circle" alt="Circle image" class="mr-3"></b-img>
-          {{user.user.firstName}} {{user.user.lastName}}
+          <b-img
+            v-bind="mainProps"
+            rounded="circle"
+            alt="Circle image"
+            class="mr-3"
+          ></b-img>
+          {{ user.user.firstName }} {{ user.user.lastName }}
         </h1>
       </div>
 
-      <hr>
+      <hr />
 
       <div v-if="isMobile()">
-
-        Download MindLogger to get started.
+        {{ $t("downloadMindlogger") }}
         <div>
-          <a href='https://play.google.com/store/apps/details?id=lab.childmindinstitute.data&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
-            <img class="linkAndroid" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/>
+          <a
+            href="https://play.google.com/store/apps/details?id=lab.childmindinstitute.data&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"
+          >
+            <img
+              class="linkAndroid"
+              alt="Get it on Google Play"
+              src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+            />
           </a>
 
-          <a href='https://testflight.apple.com/join/XbOijcEc'>
-            <img class="linkApple" alt='Get it on Apple Test Flight' src='https://developer.foursquare.com/docs/images/testflight-badge.png'/>
+          <a href="https://testflight.apple.com/join/XbOijcEc">
+            <img
+              class="linkApple"
+              alt="Get it on Apple Test Flight"
+              src="https://developer.foursquare.com/docs/images/testflight-badge.png"
+            />
           </a>
         </div>
       </div>
 
       <div v-else>
-        Thank you for creating an account with MindLogger.
-        Download MindLogger on an iOS or Android device to get started.
+        {{ $t("thankYou") }}
       </div>
     </div>
     <div v-else>
-      Please <router-link to="/login"> log in </router-link> to see the page!
+      {{ $t("please") }} <router-link to="/login"> log in </router-link>
+      {{ $t("toSeeThePage") }}
     </div>
   </div>
 </template>
 
 <style>
- td {
-   vertical-align: middle !important;
- }
+td {
+  vertical-align: middle !important;
+}
 
- .linkAndroid {
-   margin-top: 8px;
-   width: 52%;
- }
- .linkApple {
-   margin-top: 8px;
-   width: 44%
- }
+.linkAndroid {
+  margin-top: 8px;
+  width: 52%;
+}
+.linkApple {
+  margin-top: 8px;
+  width: 44%;
+}
 </style>
 
 <script>
 // import Loader from '@bit/akeshavan.mindlogger-web.loader';
-import _ from 'lodash';
-import api from '../lib/api/';
-import BounceLoader from './BounceLoader';
+import _ from "lodash";
+import api from "../lib/api/";
+import BounceLoader from "./BounceLoader";
 
 export default {
-  name: 'Profile',
+  name: "Profile",
   props: {
     user: {
-      type: Object,
+      type: Object
     },
     isLoggedIn: {
-      type: Boolean,
+      type: Boolean
     },
     apiHost: {
-      type: String,
-    },
+      type: String
+    }
   },
   components: {
-    BounceLoader,
+    BounceLoader
   },
   data() {
     return {
-      mainProps: { blank: true,
-        blankColor: '#777',
+      mainProps: {
+        blank: true,
+        blankColor: "#777",
         width: 75,
         height: 75,
-        class: 'm1' },
-      imgProps: { blank: false,
-        width: 50,
-        height: 50,
-        class: 'm1' },
+        class: "m1"
+      },
+      imgProps: { blank: false, width: 50, height: 50, class: "m1" },
       // appletsFromServer: [],
-      status: 'loading',
+      status: "loading",
       error: {},
-      options: [
-        { text: 'On', value: true },
-        { text: 'Off', value: false },
-      ],
+      options: [{ text: "On", value: true }, { text: "Off", value: false }],
       newPassword: {
         original: null,
-        repeat: null,
+        repeat: null
       },
       appletFields: [
         {
-          key: 'image',
-          label: '',
+          key: "image",
+          label: ""
         },
         {
-          key: 'name',
-          label: 'Name',
+          key: "name",
+          label: "Name"
         },
         {
-          key: 'description',
-          label: 'Description',
+          key: "description",
+          label: "Description"
         },
         {
-          key: 'active',
-          label: 'Active',
-        },
-      ],
+          key: "active",
+          label: "Active"
+        }
+      ]
     };
   },
   watch: {
@@ -121,7 +130,7 @@ export default {
       if (this.isLoggedIn) {
         this.getApplets();
       }
-    },
+    }
   },
   mounted() {
     if (this.isLoggedIn) {
@@ -132,54 +141,73 @@ export default {
     appletItems() {
       // eslint-disable-next-line
       return _.map(this.appletsFromServer, (a, index) => {
-        return { name: a['http://www.w3.org/2004/02/skos/core#prefLabel'] ? a['http://www.w3.org/2004/02/skos/core#prefLabel'][0]['@value'] : '',
-          url: a['http://schema.org/url'] ? a['http://schema.org/url'][0]['@value'] : a['http://schema.org/url'] || a.url || '',
-          description: a['http://schema.org/description'] ? a['http://schema.org/description'][0]['@value'] : '',
-          image: a['http://schema.org/image'] ? a['http://schema.org/image'][0]['@value'] : a['http://schema.org/image'] || `https://picsum.photos/400/400/?image=${350 + index}`,
-          selected: true,
+        return {
+          name: a["http://www.w3.org/2004/02/skos/core#prefLabel"]
+            ? a["http://www.w3.org/2004/02/skos/core#prefLabel"][0]["@value"]
+            : "",
+          url: a["http://schema.org/url"]
+            ? a["http://schema.org/url"][0]["@value"]
+            : a["http://schema.org/url"] || a.url || "",
+          description: a["http://schema.org/description"]
+            ? a["http://schema.org/description"][0]["@value"]
+            : "",
+          image: a["http://schema.org/image"]
+            ? a["http://schema.org/image"][0]["@value"]
+            : a["http://schema.org/image"] ||
+              `https://picsum.photos/400/400/?image=${350 + index}`,
+          selected: true
         };
       });
     },
     validatePass() {
-      if (this.newPassword.original == null && this.newPassword.repeat == null) {
+      if (
+        this.newPassword.original == null &&
+        this.newPassword.repeat == null
+      ) {
         return null;
       }
       return this.newPassword.original === this.newPassword.repeat;
     },
     appletsFromServer() {
       return this.$store.state.applets;
-    },
+    }
   },
   methods: {
     getApplets() {
-      this.status = 'loading';
-      api.getAppletsForUser({
-        apiHost: this.apiHost,
-        token: this.user.authToken.token,
-        user: this.user.user._id,
-        role: 'user',
-      })
-        .then((resp) => {
+      this.status = "loading";
+      api
+        .getAppletsForUser({
+          apiHost: this.apiHost,
+          token: this.user.authToken.token,
+          user: this.user.user._id,
+          role: "user"
+        })
+        .then(resp => {
           if (resp) {
-            const appletsFromServer = resp.data.map(applet => applet.applet)
-              .filter(a => a['http://schema.org/url']);
-            this.status = 'ready';
-            this.$store.commit('setApplets', appletsFromServer);
+            const appletsFromServer = resp.data
+              .map(applet => applet.applet)
+              .filter(a => a["http://schema.org/url"]);
+            this.status = "ready";
+            this.$store.commit("setApplets", appletsFromServer);
           } else {
-            this.status = 'ready';
+            this.status = "ready";
           }
         })
-        .catch((e) => {
+        .catch(e => {
           this.error = e;
-          this.status = 'error';
+          this.status = "error";
         });
     },
     isMobile() {
-      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      if (
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        )
+      ) {
         return true;
       }
       return false;
-    },
-  },
+    }
+  }
 };
 </script>

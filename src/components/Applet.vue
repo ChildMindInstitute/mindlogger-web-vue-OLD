@@ -1,29 +1,36 @@
 <template>
   <div class="mt-3 container">
     <div v-if="!isLoggedIn">
-      You're not logged in!
+      {{ $t("noLoggedIn") }}
     </div>
     <div v-else>
-      <div class="mb-3 pb-3 mt-3 pt-3 text-left markdown container" v-if="about">
-        <vue-markdown :watches="['source']">{{about}}</vue-markdown>
+      <div
+        class="mb-3 pb-3 mt-3 pt-3 text-left markdown container"
+        v-if="about"
+      >
+        <vue-markdown :watches="['source']">{{ about }}</vue-markdown>
       </div>
 
       <div v-else>
         <div>
-          <h1>{{applet.name}}</h1>
+          <h1>{{ applet.name }}</h1>
         </div>
         <p>
-        There should be Applet-specific text here.
-        Ideally rendered from a markdown file, the link to which
-        is in the applet JSONLD.
+          {{ $t("appletSpecificText") }}
         </p>
       </div>
 
       <p>
-        <b-button size="lg" variant="success" v-if="activityOrder[0]"
-         :to="{name: 'TakeSurvey',
-         params: {appletId: applet.url, surveyId: activityOrder[0]['@id']}}">
-          Start
+        <b-button
+          size="lg"
+          variant="success"
+          v-if="activityOrder[0]"
+          :to="{
+            name: 'TakeSurvey',
+            params: { appletId: applet.url, surveyId: activityOrder[0]['@id'] }
+          }"
+        >
+          {{ $t("start") }}
         </b-button>
       </p>
       <!-- <div v-for="(activity, index) in activityOrder"
@@ -48,7 +55,7 @@
 
 <style>
 .markdown h1 {
-    text-align: center;
+  text-align: center;
 }
 
 .markdown img {
@@ -60,51 +67,50 @@
 }
 </style>
 
-
 <script>
-import VueMarkdown from 'vue-markdown';
-import axios from 'axios';
+import VueMarkdown from "vue-markdown";
+import axios from "axios";
 
 export default {
-  name: 'Applet',
+  name: "Applet",
   props: {
     applet: {
-      type: Object,
+      type: Object
     },
     user: {
-      type: Object,
+      type: Object
     },
     isLoggedIn: {
-      type: Boolean,
+      type: Boolean
     },
     progressObj: {
-      type: Object,
+      type: Object
     },
     completeObj: {
-      type: Object,
+      type: Object
     },
     data: {
-      type: Object,
+      type: Object
     },
     activityOrder: {
-      type: Array,
+      type: Array
     },
     activityDisplayNames: {
-      type: Object,
-    },
+      type: Object
+    }
   },
   data() {
     return {
-      about: '',
+      about: ""
     };
   },
   components: {
-    VueMarkdown,
+    VueMarkdown
   },
   watch: {
     data() {
       this.getAboutData();
-    },
+    }
   },
   mounted() {
     // this.getAppletData();
@@ -127,13 +133,14 @@ export default {
     //   });
     // },
     getAboutData() {
-      if (this.data['http://schema.org/about']) {
-        axios.get(this.data['http://schema.org/about'][0]['@value']).then((resp) => {
-          this.about = resp.data;
-        });
+      if (this.data["http://schema.org/about"]) {
+        axios
+          .get(this.data["http://schema.org/about"][0]["@value"])
+          .then(resp => {
+            this.about = resp.data;
+          });
       }
-    },
-  },
+    }
+  }
 };
 </script>
-
