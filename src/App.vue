@@ -62,6 +62,7 @@ export default {
       config
     };
   },
+
   computed: {
     isLoggedIn() {
       return !_.isEmpty(this.user);
@@ -70,6 +71,12 @@ export default {
       return this.$route.query;
     }
   },
+
+  /**
+   * Method to be executed after the VNode was inserted in the DOM.
+   *
+   * @returns {void}
+   */
   mounted() {
     try {
       this.user = JSON.parse(localStorage.getItem("user")) || {};
@@ -77,9 +84,26 @@ export default {
       this.user = {};
     }
   },
+
+  /**
+   * List all the component dependencies.
+   */
   components: {
     Navbar
   },
+
+  /**
+   * This method gets executed when the VNode has been created.
+   *
+   * @returns {void}
+   */
+  created() {
+    this.$store.commit('setCurrentLanguage', this.$route.query.lang || 'en_US');
+  },
+
+  /**
+   * Define here all methods that will be available in the scope of the template.
+   */
   methods: {
     saveUser(u) {
       this.user = u;
