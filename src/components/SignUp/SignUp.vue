@@ -1,7 +1,7 @@
 <template name="signup">
   <div id="signup" class="pt-3 ">
     <div class="">
-      <h1 class="text-center" v-if="useTitle">Sign Up</h1>
+      <h1 class="text-center" v-if="useTitle">{{ $t('signUp') }}</h1>
       <div id="signupForm" class="container fluid">
         <b-form @submit="onSubmit">
           <b-alert :show="errors.show" variant="danger">{{
@@ -14,7 +14,7 @@
               type="text"
               v-model="form.email"
               required
-              placeholder="Email"
+              :placeholder="$t('email')"
               autocomplete="off"
             >
             </b-form-input>
@@ -76,7 +76,7 @@
             variant="primary"
             :disabled="status === 'loading' || !validated"
           >
-            <span v-if="status === 'ready'">{{ $t("signup") }}</span>
+            <span v-if="status === 'ready'">{{ $t("signUp") }}</span>
             <span v-else>{{ $t("signingUp") }}...</span>
           </b-button>
 

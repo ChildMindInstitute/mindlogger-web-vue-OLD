@@ -236,7 +236,7 @@ export default {
         })
         .then(() => {
           this.dismissCountDown = 5;
-          this.alertMsg = "Success!";
+          this.alertMsg = this.$t('success');
           this.msgType = "success";
         })
         .catch(err => {
