@@ -162,7 +162,8 @@ export default {
         .signIn({
           apiHost: this.apiHost,
           user: this.form.email,
-          password: this.form.password
+          password: this.form.password,
+          lang: this.$i18n.locale.slice(0, 2)
         })
         .then(resp => {
           this.$emit("login", resp.data);
