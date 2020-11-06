@@ -41,16 +41,7 @@ export default {
   name: "Navbar",
   data: () => ({
     currentLanguage: "en_US",
-    options: [
-      {
-        text: "English",
-        value: "en_US"
-      },
-      {
-        text: "French",
-        value: "fr_FR"
-      }
-    ]
+    options: []
   }),
   props: {
     isLoggedIn: {
@@ -65,6 +56,18 @@ export default {
     query: {
       type: Object
     }
+  },
+  created() {
+    this.options = [
+      {
+        text: this.$t("en"),
+        value: "en_US"
+      },
+      {
+        text: this.$t("fr"),
+        value: "fr_FR"
+      }
+    ]
   },
   methods: {
     onLanguageChange() {
