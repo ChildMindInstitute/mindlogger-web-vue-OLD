@@ -1,4 +1,6 @@
 export default {
+  en: "Anglaise",
+  fr: "Française",
   userWebText: "Texte web utilisateur de MindLogger ",
   welcome: "Bienvenue sur MindLogger",
   participate: "Participez à des études de recherche scientifique en ligne !",
