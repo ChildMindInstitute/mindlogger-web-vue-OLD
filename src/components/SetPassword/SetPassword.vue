@@ -119,6 +119,11 @@ export default {
     };
   },
   beforeMount() {
+    const lang = (this.$route.query.lang || 'en') == 'en' ? 'en_US' : 'fr_FR';
+
+    this.$store.commit("setCurrentLanguage", lang);
+    this.$i18n.locale = lang;
+
     api.checkTemporaryPassword({
       apiHost: this.apiHost,
       userId: this.$route.params.userId,

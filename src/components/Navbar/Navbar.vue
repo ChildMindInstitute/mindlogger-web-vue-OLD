@@ -14,7 +14,6 @@
         <b-form-select
           v-model="currentLanguage"
           :options="options"
-          @change="onLanguageChange"
         ></b-form-select>
         <!-- class="bg-transparent text-white" -->
 
@@ -40,7 +39,6 @@
 export default {
   name: "Navbar",
   data: () => ({
-    currentLanguage: "en_US",
     options: [
       {
         text: "English",
@@ -66,11 +64,18 @@ export default {
       type: Object
     }
   },
-  methods: {
-    onLanguageChange() {
-      this.$i18n.locale = this.currentLanguage;
-      this.$store.commit("setCurrentLanguage", this.currentLanguage);
+  computed: {
+    currentLanguage: {
+      get() {
+        return this.$store.state.currentLanguage;
+      },
+      set(lang) {
+        this.$i18n.locale = lang;
+        this.$store.commit("setCurrentLanguage", lang);
+      }
     }
+  },
+  methods: {
   }
 };
 </script>

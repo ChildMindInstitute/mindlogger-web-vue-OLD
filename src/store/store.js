@@ -21,7 +21,7 @@ const getInitialState = () => {
     branchingCache: {},
     activities: {},
     redirect: "Profile",
-    currentLanguage: ""
+    currentLanguage: "en_US"
   };
 };
 
