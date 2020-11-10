@@ -95,7 +95,8 @@ export default {
         .resetPassword({
           apiHost: this.apiHost,
           body: {
-            email: this.form.email
+            email: this.form.email,
+            lang: this.$store.state.currentLanguage.slice(0, 2)
           }
         })
         .then(resp => {

@@ -81,5 +81,7 @@ export default {
   addThisApplet: "Ajouter cette applet",
   youHaveNoApps: "Vous n'avez pas encore d'app.",
   fixProblem:
-    "Veuillez soumettre une <a href='https://github.com/ChildMindInstitute/mindlogger-web'>  requête sur GitHub</a> afin que nous puissions résoudre ce problème !"
+    "Veuillez soumettre une <a href='https://github.com/ChildMindInstitute/mindlogger-web'>  requête sur GitHub</a> afin que nous puissions résoudre ce problème !",
+  resetLinkExpired:
+    "Le lien de réinitialisation du mot de passe a expiré"
 };

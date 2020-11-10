@@ -1,6 +1,6 @@
 {
   "name": "mindlogger-web",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "web version of mindlogger",
   "author": "Anisha Keshavan <anisha@childmind.org>",
   "private": true,

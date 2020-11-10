@@ -15,6 +15,7 @@ import Invitation from '@/components/Invitation/Invitation';
 import AcceptInvitation from '@/components/Invitation/AcceptInvitation';
 import DeclineInvitation from '@/components/Invitation/DeclineInvitation';
 import Settings from '@/components/Settings';
+import SetPassword from '@/components/SetPassword';
 import config from '../config';
 
 Vue.use(Router);
@@ -90,6 +91,15 @@ const router = new Router({
         apiHost: config.apiHost,
         loginLink: { name: 'Login' },
       },
+    },
+    {
+      path: '/useraccount/:userId/token/:temporaryToken',
+      name: 'SetPassword',
+      component: SetPassword,
+      props: {
+        apiHost: config.apiHost,
+        loginLink: { name: 'Login' },
+      }
     },
     {
       path: '/settings',
