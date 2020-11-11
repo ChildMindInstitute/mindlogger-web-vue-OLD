@@ -14,7 +14,6 @@
         <b-form-select
           v-model="currentLanguage"
           :options="options"
-          @change="onLanguageChange"
         ></b-form-select>
         <!-- class="bg-transparent text-white" -->
 
@@ -75,6 +74,8 @@ export default {
       this.$i18n.locale = this.currentLanguage;
       this.$store.commit("setCurrentLanguage", this.currentLanguage);
     }
+  },
+  methods: {
   }
 };
 </script>

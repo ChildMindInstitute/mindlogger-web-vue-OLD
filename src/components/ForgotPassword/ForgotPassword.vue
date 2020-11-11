@@ -96,8 +96,8 @@ export default {
           apiHost: this.apiHost,
           body: {
             email: this.form.email,
-            lang: this.$i18n.locale.slice(0, 2),
-          },
+            lang: this.$store.state.currentLanguage.slice(0, 2)
+          }
         })
         .then(resp => {
           window.console.log(resp);

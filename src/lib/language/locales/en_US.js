@@ -81,5 +81,6 @@ export default {
   youHaveNoApps: "You have no apps yet",
   fixProblem:
     "Please file an <a href='https://github.com/ChildMindInstitute/mindlogger-web'> issue on GitHub</a> so we can fix this problem!",
-  success: "Success"
+  success: "Success",
+  resetLinkExpired: "Password reset link has expired."
 };

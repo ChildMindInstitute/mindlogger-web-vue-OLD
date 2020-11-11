@@ -238,6 +238,15 @@ const declineInvitation = ({ apiHost, token, invitationId }) => axios({
   },
 });
 
+const checkTemporaryPassword = ({ apiHost, userId, token }) => axios({
+  method: 'get',
+  url: `${apiHost}/user/password/temporary/${userId}`,
+  params: {
+    token
+  }
+})
+
+
 export default {
   signIn,
   signUp,
@@ -252,5 +261,6 @@ export default {
   getInvitation,
   acceptInvitation,
   declineInvitation,
+  checkTemporaryPassword,
 };
 </script>
