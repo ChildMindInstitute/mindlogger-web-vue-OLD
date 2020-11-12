@@ -1,14 +1,15 @@
+/* eslint-disable */
 // Third-party libraries.
-import Vue from "vue";
-import VueI18n from "vue-i18n";
-import _ from "lodash";
+import Vue from 'vue';
+import VueI18n from 'vue-i18n';
+import _ from 'lodash';
 
 // Local.
-import store from "../../store/store";
+import store from '../../store/store';
 
 // Translations.
-import en_US from "./locales/en_US";
-import fr_FR from "./locales/fr_FR";
+import en_US from './locales/en_US';
+import fr_FR from './locales/fr_FR';
 
 
 Vue.use(VueI18n);
@@ -44,6 +45,6 @@ export default new VueI18n({
   lazy: true,
   messages: {
     en_US,
-    fr_FR
-  }
+    fr_FR,
+  },
 });

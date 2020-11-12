@@ -59,7 +59,7 @@
 </style>
 
 <script>
-import api from "../../lib/api";
+import api from '../../lib/api';
 
 /**
  * # Login
@@ -82,33 +82,33 @@ import api from "../../lib/api";
  */
 
 export default {
-  name: "login",
+  name: 'login',
   props: {
     /**
      * the girder API endpoint
      */
     apiHost: {
-      type: String
+      type: String,
     },
     signupLink: {
       type: Object,
       default() {
         return {};
-      }
+      },
     },
     forgotLink: {
       type: Object,
       default() {
         return {};
-      }
+      },
     },
     query: {
-      type: Object
+      type: Object,
     },
     useTitle: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     return {
@@ -118,7 +118,7 @@ export default {
        * status of the component, 'ready' or
        * set to 'loading' during login
        */
-      status: "ready",
+      status: 'ready',
       /**
        * ### form
        *
@@ -127,7 +127,7 @@ export default {
        */
       form: {
         email: null,
-        password: null
+        password: null,
       },
       /**
        * ### errors
@@ -138,14 +138,14 @@ export default {
       errors: {
         message: null,
         show: false,
-        code: null
-      }
+        code: null,
+      },
     };
   },
   computed: {
     signupWithQuery() {
       return { ...this.signupLink, query: this.query };
-    }
+    },
   },
   methods: {
     /**
@@ -157,22 +157,22 @@ export default {
      */
     onSubmit(e) {
       e.preventDefault();
-      this.status = "loading";
+      this.status = 'loading';
       api
         .signIn({
           apiHost: this.apiHost,
           user: this.form.email,
           password: this.form.password,
-          lang: this.$i18n.locale.slice(0, 2)
+          lang: this.$i18n.locale.slice(0, 2),
         })
-        .then(resp => {
-          this.$emit("login", resp.data);
+        .then((resp) => {
+          this.$emit('login', resp.data);
           this.$router.push(this.$store.state.redirect);
-          this.$store.commit("setRedirect", "Profile");
-          this.$store.commit("setUserEmail", this.form.email);
-          this.status = "ready";
+          this.$store.commit('setRedirect', 'Profile');
+          this.$store.commit('setUserEmail', this.form.email);
+          this.status = 'ready';
         })
-        .catch(err => {
+        .catch((err) => {
           this.errors.code = err.response;
           try {
             this.errors.message = this.errors.code.data.message;
@@ -181,10 +181,10 @@ export default {
           }
 
           this.errors.show = true;
-          this.status = "ready";
+          this.status = 'ready';
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

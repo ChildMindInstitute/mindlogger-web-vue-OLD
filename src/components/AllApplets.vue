@@ -143,40 +143,40 @@
 // import jsonld from 'jsonld/dist/jsonld.min';
 // import Loader from '@bit/akeshavan.mindlogger-web.loader';
 // import _ from 'lodash';
-import api from "../lib/api/";
-import BounceLoader from "./BounceLoader";
+import api from '../lib/api/';
+import BounceLoader from './BounceLoader';
 
 export default {
-  name: "AllApplets",
+  name: 'AllApplets',
   props: {
     isLoggedIn: {
-      type: Boolean
+      type: Boolean,
     },
     user: {
-      type: Object
+      type: Object,
     },
     activities: {
-      type: Object
+      type: Object,
     },
     applets: {
-      type: Array
+      type: Array,
     },
     apiHost: {
-      type: String
+      type: String,
     },
     query: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   components: {
-    BounceLoader
+    BounceLoader,
   },
   data() {
     return {
       // appletsFromServer: {},
       // appletData: {},
       dataStatus: 0,
-      status: "loading"
+      status: 'loading',
     };
   },
   computed: {
@@ -188,41 +188,41 @@ export default {
     // },
     appletsFromServer() {
       return this.$store.state.applets;
-    }
+    },
   },
   watch: {
     isLoggedIn() {
       if (this.isLoggedIn) {
         this.getApplets();
       }
-    }
+    },
   },
   methods: {
     getApplets() {
-      this.status = "loading";
+      this.status = 'loading';
       return api
         .getAppletsForUser({
           apiHost: this.apiHost,
           token: this.user.authToken.token,
           user: this.user.user._id,
-          role: "user"
+          role: 'user',
         })
-        .then(resp => {
+        .then((resp) => {
           if (resp.data.length) {
             const appletsFromServer = resp.data
               .map(applet => applet.applet)
-              .filter(a => a["http://schema.org/url"]);
+              .filter(a => a['http://schema.org/url']);
             const activitiesFromServer = Object.assign(
-              ...resp.data.map(activity => activity.activities)
+              ...resp.data.map(activity => activity.activities),
             );
-            this.$store.commit("setApplets", appletsFromServer);
-            this.$store.commit("setActivities", activitiesFromServer);
+            this.$store.commit('setApplets', appletsFromServer);
+            this.$store.commit('setActivities', activitiesFromServer);
           }
-          this.status = "ready";
+          this.status = 'ready';
         })
-        .catch(e => {
+        .catch((e) => {
           this.error = e;
-          this.status = "error";
+          this.status = 'error';
         });
     },
     addAppletToUser(appletId) {
@@ -230,19 +230,19 @@ export default {
         .addAppletToUser({
           apiHost: this.apiHost,
           appletId,
-          token: this.user.authToken.token
+          token: this.user.authToken.token,
         })
         // eslint-disable-next-line
         .then(resp => {
           // console.log('added a new applet', resp);
         })
         .then(this.getApplets);
-    }
+    },
   },
   mounted() {
     if (this.isLoggedIn) {
       this.getApplets();
     }
-  }
+  },
 };
 </script>

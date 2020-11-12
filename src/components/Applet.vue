@@ -68,49 +68,49 @@
 </style>
 
 <script>
-import VueMarkdown from "vue-markdown";
-import axios from "axios";
+import VueMarkdown from 'vue-markdown';
+import axios from 'axios';
 
 export default {
-  name: "Applet",
+  name: 'Applet',
   props: {
     applet: {
-      type: Object
+      type: Object,
     },
     user: {
-      type: Object
+      type: Object,
     },
     isLoggedIn: {
-      type: Boolean
+      type: Boolean,
     },
     progressObj: {
-      type: Object
+      type: Object,
     },
     completeObj: {
-      type: Object
+      type: Object,
     },
     data: {
-      type: Object
+      type: Object,
     },
     activityOrder: {
-      type: Array
+      type: Array,
     },
     activityDisplayNames: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
-      about: ""
+      about: '',
     };
   },
   components: {
-    VueMarkdown
+    VueMarkdown,
   },
   watch: {
     data() {
       this.getAboutData();
-    }
+    },
   },
   mounted() {
     // this.getAppletData();
@@ -133,14 +133,14 @@ export default {
     //   });
     // },
     getAboutData() {
-      if (this.data["http://schema.org/about"]) {
+      if (this.data['http://schema.org/about']) {
         axios
-          .get(this.data["http://schema.org/about"][0]["@value"])
-          .then(resp => {
+          .get(this.data['http://schema.org/about'][0]['@value'])
+          .then((resp) => {
             this.about = resp.data;
           });
       }
-    }
-  }
+    },
+  },
 };
 </script>

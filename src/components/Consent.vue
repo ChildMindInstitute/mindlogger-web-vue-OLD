@@ -97,36 +97,36 @@
 <script>
 // import axios from 'axios';
 // import _ from 'lodash';
-import Vue from "vue";
-import VueProgressiveImage from "vue-progressive-image";
-import SignUp from "./SignUp";
-import Login from "./Login";
-import api from "../lib/api/";
+import Vue from 'vue';
+import VueProgressiveImage from 'vue-progressive-image';
+import SignUp from './SignUp';
+import Login from './Login';
+import api from '../lib/api/';
 
 Vue.use(VueProgressiveImage);
 
 export default {
-  name: "Consent",
+  name: 'Consent',
   props: {
     isLoggedIn: {
-      type: Boolean
+      type: Boolean,
     },
     apiHost: {
-      type: String
+      type: String,
     },
     user: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   components: {
     SignUp,
-    Login
+    Login,
   },
   data() {
     return {
       // eslint-disable-next-line
       placeholder:
-        "iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAQAAADTdEb+AAACIElEQVR42u3SQQ0AAAgDMeZf9DBBwqeVcLm0A+diLIyFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2NhLBEwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxsJYxsJYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC2MZC2NhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAs/i3/GFbzJBm6pwAAAABJRU5ErkJggg==",
+        'iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAQAAADTdEb+AAACIElEQVR42u3SQQ0AAAgDMeZf9DBBwqeVcLm0A+diLIyFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2NhLBEwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxsJYxsJYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC2MZC2NhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAs/i3/GFbzJBm6pwAAAABJRU5ErkJggg==',
       currentStep: 0,
       fullConsentForm: `
        <div id="terms"><h4 style="text-align: center;">
@@ -149,47 +149,47 @@ export default {
       `,
       steps: [
         {
-          title: "About the Study",
+          title: 'About the Study',
           image:
-            "https://parkinsonmpower.org/static/images/about%20the%20study.svg",
+            'https://parkinsonmpower.org/static/images/about%20the%20study.svg',
           text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu sagittis leo,
           sit amet consectetur mi. Donec volutpat rutrum massa et luctus.
           Fusce ac dui quam. Nam a nibh porttitor, tincidunt libero id, condimentum velit.
           Praesent ultricies consectetur nulla vel pharetra. Fusce auctor viverra fringilla.
           Duis euismod enim eu quam tincidunt, sed faucibus leo placerat.
-          Pellentesque et justo a orci dictum pulvinar eleifend at nisl. Integer eu purus sapien.`
+          Pellentesque et justo a orci dictum pulvinar eleifend at nisl. Integer eu purus sapien.`,
         },
         {
-          title: "How does the study work?",
+          title: 'How does the study work?',
           image:
-            "https://parkinsonmpower.org/static/images/procedures%20activities.svg",
+            'https://parkinsonmpower.org/static/images/procedures%20activities.svg',
           text: `Integer vel diam a lorem mattis tristique at vel magna. Etiam nunc nunc,
           vehicula in mauris vel, gravida pellentesque leo. Lorem ipsum dolor sit amet,
           consectetur adipiscing elit. Quisque orci elit, mollis at massa non, tempor
           posuere turpis. Sed lacinia eros orci, quis efficitur justo euismod eget.
           In ornare vel nisi at fringilla.
-          `
+          `,
         },
         {
-          title: "How long does it last?",
+          title: 'How long does it last?',
           image:
-            "https://parkinsonmpower.org/static/images/how%20long%20does%20it%20last.svg",
+            'https://parkinsonmpower.org/static/images/how%20long%20does%20it%20last.svg',
           text: `<p>We will ask you to participate for 2 weeks every three months.</p>
-          <p>We would like you to participate for 2 years, but you can participate as long as you like.</p>`
+          <p>We would like you to participate for 2 years, but you can participate as long as you like.</p>`,
         },
         {
-          title: "What are the benefits and risks?",
+          title: 'What are the benefits and risks?',
           image:
-            "https://parkinsonmpower.org/static/images/benefits%20and%20risks.svg",
+            'https://parkinsonmpower.org/static/images/benefits%20and%20risks.svg',
           text: `Integer vel diam a lorem mattis tristique at vel magna. Etiam nunc nunc,
           vehicula in mauris vel, gravida pellentesque leo. Lorem ipsum dolor sit amet,
           consectetur adipiscing elit. Quisque orci elit, mollis at massa non, tempor
           posuere turpis. Sed lacinia eros orci, quis efficitur justo euismod eget.
-          In ornare vel nisi at fringilla.`
-        }
+          In ornare vel nisi at fringilla.`,
+        },
       ],
       showLogin: false,
-      mode: "signup"
+      mode: 'signup',
     };
   },
   computed: {
@@ -198,11 +198,11 @@ export default {
     },
     redirect() {
       return {
-        name: "Applet",
+        name: 'Applet',
         params: { appletId: this.appletURL },
-        query: { ...this.query, consent: true }
+        query: { ...this.query, consent: true },
       };
-    }
+    },
   },
   mounted() {
     // cache all images
@@ -233,7 +233,7 @@ export default {
         .addAppletToUser({
           apiHost: this.apiHost,
           appletId: encodeURI(appletId),
-          token: user.authToken.token
+          token: user.authToken.token,
         })
         // eslint-disable-next-line
         .then(resp => {
@@ -241,9 +241,9 @@ export default {
         });
     },
     emitLogin(loginData) {
-      this.$emit("login", loginData);
+      this.$emit('login', loginData);
       this.addAppletToUser(this.appletURL, loginData);
-    }
-  }
+    },
+  },
 };
 </script>

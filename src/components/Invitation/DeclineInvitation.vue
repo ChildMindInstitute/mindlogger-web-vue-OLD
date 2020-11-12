@@ -43,31 +43,31 @@
 </style>
 
 <script>
-import api from "../../lib/api/";
-import BounceLoader from "../BounceLoader";
-import ButtonGroup from "./ButtonGroup";
+import api from '../../lib/api/';
+import BounceLoader from '../BounceLoader';
+import ButtonGroup from './ButtonGroup';
 
 export default {
-  name: "DeclineInvitation",
+  name: 'DeclineInvitation',
   props: {
     user: {
-      type: Object
+      type: Object,
     },
     isLoggedIn: {
-      type: Boolean
+      type: Boolean,
     },
     apiHost: {
-      type: String
-    }
+      type: String,
+    },
   },
   components: {
     ButtonGroup,
-    BounceLoader
+    BounceLoader,
   },
   data() {
     return {
-      status: "loading",
-      invitationText: ""
+      status: 'loading',
+      invitationText: '',
     };
   },
   watch: {
@@ -75,32 +75,32 @@ export default {
       if (this.isLoggedIn) {
         this.declineInvitation();
       }
-    }
+    },
   },
   mounted() {
     if (this.isLoggedIn) {
       this.declineInvitation();
     } else {
       const route = `invitation/${this.$route.params.invitationId}/decline`;
-      this.$store.commit("setRedirect", route);
+      this.$store.commit('setRedirect', route);
     }
   },
   methods: {
     declineInvitation() {
-      this.status = "loading";
+      this.status = 'loading';
       api
         .declineInvitation({
           apiHost: this.apiHost,
           token: this.user.authToken.token,
-          invitationId: this.$route.params.invitationId
+          invitationId: this.$route.params.invitationId,
         })
         .then(() => {
-          this.status = "declined";
+          this.status = 'declined';
         })
         .catch(() => {
-          this.status = "error";
+          this.status = 'error';
         });
-    }
-  }
+    },
+  },
 };
 </script>

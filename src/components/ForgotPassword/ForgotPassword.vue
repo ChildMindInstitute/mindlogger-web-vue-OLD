@@ -45,71 +45,71 @@
 </style>
 
 <script>
-import api from "../../lib/api";
+import api from '../../lib/api';
 
 export default {
-  name: "forgotpassword",
+  name: 'forgotpassword',
   props: {
     apiHost: {
-      type: String
+      type: String,
     },
     loginLink: {
       type: Object,
       default() {
         return {};
-      }
+      },
     },
     query: {
-      type: Object
+      type: Object,
     },
     useTitle: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     return {
-      status: "ready",
+      status: 'ready',
       form: {
-        email: ""
+        email: '',
       },
       show: true,
       errors: {
         show: false,
         message: null,
-        code: null
-      }
+        code: null,
+      },
     };
   },
   computed: {
     loginWithQuery() {
       return { ...this.loginLink, query: this.query };
-    }
+    },
   },
   methods: {
     onSubmit(e) {
       e.preventDefault();
-      this.status = "loading";
+      this.status = 'loading';
 
       api
         .resetPassword({
           apiHost: this.apiHost,
           body: {
             email: this.form.email,
-            lang: this.$store.state.currentLanguage.slice(0, 2)
-          }
+            lang: this.$store.state.currentLanguage.slice(0, 2),
+          },
         })
-        .then(resp => {
+        .then((resp) => {
           window.console.log(resp);
-          this.status = "success";
-          this.$emit("sendRequest", null);
+          this.status = 'success';
+          this.$emit('sendRequest', null);
         })
-        .catch(err => {
+        .catch((err) => {
           window.console.warn(err);
-          this.status = "fail";
+          this.status = 'fail';
           this.error = e.message;
         });
-    }
-  }
+    },
+  },
 };
 </script>

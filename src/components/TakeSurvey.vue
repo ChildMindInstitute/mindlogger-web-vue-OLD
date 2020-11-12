@@ -62,40 +62,40 @@
 </template>
 
 <script>
-import Survey from "@bit/akeshavan.mindlogger-web.survey";
-import SaveButton from "./SaveButton";
-import Login from "./Login/";
-import api from "../lib/api/";
+import Survey from '@bit/akeshavan.mindlogger-web.survey';
+import SaveButton from './SaveButton';
+import Login from './Login/';
+import api from '../lib/api/';
 
 export default {
-  name: "TakeSurvey",
+  name: 'TakeSurvey',
   components: {
     Login,
     Survey,
-    SaveButton
+    SaveButton,
   },
   props: {
     user: {
-      type: Object
+      type: Object,
     },
     apiHost: {
-      type: String
+      type: String,
     },
     applet: {
-      type: Object
+      type: Object,
     },
     progressObj: {
-      type: Object
+      type: Object,
     },
     responsesObj: {
-      type: Object
+      type: Object,
     },
     completeObj: {
-      type: Object
+      type: Object,
     },
     nextActivity: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
@@ -104,14 +104,14 @@ export default {
       saveReady: true,
       // complete: false,
       error: {
-        show: false
-      }
+        show: false,
+      },
     };
   },
   watch: {
     srcUrl() {
       this.error.show = false;
-    }
+    },
   },
   computed: {
     srcUrl() {
@@ -125,7 +125,7 @@ export default {
     },
     complete() {
       return this.completeObj[this.srcUrl] || false;
-    }
+    },
   },
   mounted() {
     this.error.show = false;
@@ -134,13 +134,13 @@ export default {
   methods: {
     saveResponse(resp, val) {
       // this.responses[resp] = val;
-      this.$emit("saveComplete", this.srcUrl, false);
-      this.$emit("saveResponse", this.srcUrl, resp, val);
+      this.$emit('saveComplete', this.srcUrl, false);
+      this.$emit('saveResponse', this.srcUrl, resp, val);
       // this.$emit('saveProgress', this.srcUrl, this.progress);
     },
     updateProgress(p) {
       // this.progress = p;
-      this.$emit("saveProgress", this.srcUrl, p);
+      this.$emit('saveProgress', this.srcUrl, p);
     },
     clearResponses() {
       // this.responses = {};
@@ -155,43 +155,43 @@ export default {
         .getAppletFromURI({
           apiHost: this.apiHost,
           token: this.user.authToken.token,
-          URI: this.applet.url
+          URI: this.applet.url,
         })
-        .then(appletResp => {
+        .then((appletResp) => {
           api
             .getActivityFromURI({
               apiHost: this.apiHost,
               token: this.user.authToken.token,
-              URI: this.srcUrl
+              URI: this.srcUrl,
             })
-            .then(activityResp => {
+            .then((activityResp) => {
               api
                 .sendActivityData({
                   data: {
-                    applet: appletResp.data.applet._id.split("/")[1],
-                    activity: activityResp.data._id.split("/")[1],
-                    responses: this.responses
+                    applet: appletResp.data.applet._id.split('/')[1],
+                    activity: activityResp.data._id.split('/')[1],
+                    responses: this.responses,
                   },
                   apiHost: this.apiHost,
-                  token: this.user.authToken.token
+                  token: this.user.authToken.token,
                 })
                 .then(() => {
                   this.saveReady = true;
                   this.error.show = false;
                   // this.complete = true;
-                  this.$emit("saveComplete", this.srcUrl, true);
+                  this.$emit('saveComplete', this.srcUrl, true);
                 })
-                .catch(e => {
+                .catch((e) => {
                   // console.log(err);
                   this.error.show = true;
                   this.error.error = e;
                   this.saveReady = true;
-                  this.$emit("saveComplete", this.srcUrl, true);
+                  this.$emit('saveComplete', this.srcUrl, true);
                 });
             });
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

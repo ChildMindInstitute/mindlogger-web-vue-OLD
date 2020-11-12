@@ -33,14 +33,14 @@
 
 <script>
 export default {
-  name: "Landing",
+  name: 'Landing',
   props: {
     isLoggedIn: {
-      type: Boolean
+      type: Boolean,
     },
     query: {
-      type: Object
-    }
-  }
+      type: Object,
+    },
+  },
 };
 </script>

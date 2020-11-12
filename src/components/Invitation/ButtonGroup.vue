@@ -27,25 +27,25 @@
 
 <script>
 export default {
-  name: "ButtonGroup",
+  name: 'ButtonGroup',
   props: {
     invitationId: {
-      type: String
+      type: String,
     },
     status: {
-      type: String
+      type: String,
     },
     apiHost: {
-      type: String
-    }
+      type: String,
+    },
   },
   methods: {
     triggerAcceptInvitation() {
-      this.$emit("accept");
+      this.$emit('accept');
     },
     triggerRemoveInvitation() {
-      this.$emit("remove");
-    }
-  }
+      this.$emit('remove');
+    },
+  },
 };
 </script>

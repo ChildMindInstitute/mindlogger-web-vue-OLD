@@ -67,62 +67,62 @@ td {
 
 <script>
 // import Loader from '@bit/akeshavan.mindlogger-web.loader';
-import _ from "lodash";
-import api from "../lib/api/";
-import BounceLoader from "./BounceLoader";
+import _ from 'lodash';
+import api from '../lib/api/';
+import BounceLoader from './BounceLoader';
 
 export default {
-  name: "Profile",
+  name: 'Profile',
   props: {
     user: {
-      type: Object
+      type: Object,
     },
     isLoggedIn: {
-      type: Boolean
+      type: Boolean,
     },
     apiHost: {
-      type: String
-    }
+      type: String,
+    },
   },
   components: {
-    BounceLoader
+    BounceLoader,
   },
   data() {
     return {
       mainProps: {
         blank: true,
-        blankColor: "#777",
+        blankColor: '#777',
         width: 75,
         height: 75,
-        class: "m1"
+        class: 'm1',
       },
-      imgProps: { blank: false, width: 50, height: 50, class: "m1" },
+      imgProps: { blank: false, width: 50, height: 50, class: 'm1' },
       // appletsFromServer: [],
-      status: "loading",
+      status: 'loading',
       error: {},
-      options: [{ text: "On", value: true }, { text: "Off", value: false }],
+      options: [{ text: 'On', value: true }, { text: 'Off', value: false }],
       newPassword: {
         original: null,
-        repeat: null
+        repeat: null,
       },
       appletFields: [
         {
-          key: "image",
-          label: ""
+          key: 'image',
+          label: '',
         },
         {
-          key: "name",
-          label: "Name"
+          key: 'name',
+          label: 'Name',
         },
         {
-          key: "description",
-          label: "Description"
+          key: 'description',
+          label: 'Description',
         },
         {
-          key: "active",
-          label: "Active"
-        }
-      ]
+          key: 'active',
+          label: 'Active',
+        },
+      ],
     };
   },
   watch: {
@@ -130,7 +130,7 @@ export default {
       if (this.isLoggedIn) {
         this.getApplets();
       }
-    }
+    },
   },
   mounted() {
     if (this.isLoggedIn) {
@@ -142,20 +142,20 @@ export default {
       // eslint-disable-next-line
       return _.map(this.appletsFromServer, (a, index) => {
         return {
-          name: a["http://www.w3.org/2004/02/skos/core#prefLabel"]
-            ? a["http://www.w3.org/2004/02/skos/core#prefLabel"][0]["@value"]
-            : "",
-          url: a["http://schema.org/url"]
-            ? a["http://schema.org/url"][0]["@value"]
-            : a["http://schema.org/url"] || a.url || "",
-          description: a["http://schema.org/description"]
-            ? a["http://schema.org/description"][0]["@value"]
-            : "",
-          image: a["http://schema.org/image"]
-            ? a["http://schema.org/image"][0]["@value"]
-            : a["http://schema.org/image"] ||
+          name: a['http://www.w3.org/2004/02/skos/core#prefLabel']
+            ? a['http://www.w3.org/2004/02/skos/core#prefLabel'][0]['@value']
+            : '',
+          url: a['http://schema.org/url']
+            ? a['http://schema.org/url'][0]['@value']
+            : a['http://schema.org/url'] || a.url || '',
+          description: a['http://schema.org/description']
+            ? a['http://schema.org/description'][0]['@value']
+            : '',
+          image: a['http://schema.org/image']
+            ? a['http://schema.org/image'][0]['@value']
+            : a['http://schema.org/image'] ||
               `https://picsum.photos/400/400/?image=${350 + index}`,
-          selected: true
+          selected: true,
         };
       });
     },
@@ -170,44 +170,44 @@ export default {
     },
     appletsFromServer() {
       return this.$store.state.applets;
-    }
+    },
   },
   methods: {
     getApplets() {
-      this.status = "loading";
+      this.status = 'loading';
       api
         .getAppletsForUser({
           apiHost: this.apiHost,
           token: this.user.authToken.token,
           user: this.user.user._id,
-          role: "user"
+          role: 'user',
         })
-        .then(resp => {
+        .then((resp) => {
           if (resp) {
             const appletsFromServer = resp.data
               .map(applet => applet.applet)
-              .filter(a => a["http://schema.org/url"]);
-            this.status = "ready";
-            this.$store.commit("setApplets", appletsFromServer);
+              .filter(a => a['http://schema.org/url']);
+            this.status = 'ready';
+            this.$store.commit('setApplets', appletsFromServer);
           } else {
-            this.status = "ready";
+            this.status = 'ready';
           }
         })
-        .catch(e => {
+        .catch((e) => {
           this.error = e;
-          this.status = "error";
+          this.status = 'error';
         });
     },
     isMobile() {
       if (
         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-          navigator.userAgent
+          navigator.userAgent,
         )
       ) {
         return true;
       }
       return false;
-    }
-  }
+    },
+  },
 };
 </script>

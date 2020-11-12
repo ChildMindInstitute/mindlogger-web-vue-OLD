@@ -42,24 +42,24 @@
 </template>
 
 <script>
-import Vue from "vue";
-import BootstrapVue from "bootstrap-vue";
-import _ from "lodash";
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
-import config from "./config";
-import Navbar from "./components/Navbar/";
+import Vue from 'vue';
+import BootstrapVue from 'bootstrap-vue';
+import _ from 'lodash';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+import config from './config';
+import Navbar from './components/Navbar/';
 
 Vue.use(BootstrapVue);
 
-const localStorage = require("localStorage");
+const localStorage = require('localStorage');
 
 export default {
-  name: "App",
+  name: 'App',
   data() {
     return {
       user: {},
-      config
+      config,
     };
   },
 
@@ -69,7 +69,7 @@ export default {
     },
     query() {
       return this.$route.query;
-    }
+    },
   },
 
   /**
@@ -79,7 +79,7 @@ export default {
    */
   mounted() {
     try {
-      this.user = JSON.parse(localStorage.getItem("user")) || {};
+      this.user = JSON.parse(localStorage.getItem('user')) || {};
     } catch (error) {
       this.user = {};
     }
@@ -89,7 +89,7 @@ export default {
    * List all the component dependencies.
    */
   components: {
-    Navbar
+    Navbar,
   },
 
   /**
@@ -111,17 +111,17 @@ export default {
     },
     logout() {
       this.user = {};
-      this.$router.push("/login");
-      localStorage.setItem("user", {});
-      this.$store.commit("reinitializeState");
+      this.$router.push('/login');
+      localStorage.setItem('user', {});
+      this.$store.commit('reinitializeState');
     },
     /**
      * save the authtoken to localstorage
      */
     saveToken(user) {
-      localStorage.setItem("user", JSON.stringify(user));
-    }
-  }
+      localStorage.setItem('user', JSON.stringify(user));
+    },
+  },
 };
 </script>
 

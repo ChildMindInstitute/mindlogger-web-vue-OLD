@@ -102,8 +102,8 @@
 </style>
 
 <script>
-import _ from "lodash";
-import api from "../../lib/api";
+import _ from 'lodash';
+import api from '../../lib/api';
 
 /**
  * # SignUp
@@ -115,42 +115,42 @@ import api from "../../lib/api";
  */
 
 export default {
-  name: "signup",
+  name: 'signup',
   props: {
     apiHost: {
-      type: String
+      type: String,
     },
     loginLink: {
       type: Object,
       default() {
         return {};
-      }
+      },
     },
     query: {
-      type: Object
+      type: Object,
     },
     useTitle: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     return {
-      status: "ready",
+      status: 'ready',
       form: {
-        email: "",
-        password: "",
-        password2: "",
-        login: "",
-        firstName: "",
-        lastName: ""
+        email: '',
+        password: '',
+        password2: '',
+        login: '',
+        firstName: '',
+        lastName: '',
       },
       show: true,
       errors: {
         show: false,
         message: null,
-        code: null
-      }
+        code: null,
+      },
     };
   },
   computed: {
@@ -159,7 +159,7 @@ export default {
     },
     loginWithQuery() {
       return { ...this.loginLink, query: this.query };
-    }
+    },
   },
   methods: {
     /**
@@ -167,31 +167,31 @@ export default {
      */
     onSubmit(e) {
       e.preventDefault();
-      this.status = "loading";
+      this.status = 'loading';
       api
         .signUp(this.apiHost, {
           email: this.form.email,
           firstName: this.form.firstName,
           lastName: this.form.lastName,
-          password: this.form.password
+          password: this.form.password,
         })
-        .then(resp => {
-          this.status = "ready";
-          const keys = _.filter(Object.keys(resp.data), k => k !== "authToken");
+        .then((resp) => {
+          this.status = 'ready';
+          const keys = _.filter(Object.keys(resp.data), k => k !== 'authToken');
           const cleanedUser = {};
-          _.map(keys, k => {
+          _.map(keys, (k) => {
             cleanedUser[k] = resp.data[k];
           });
           // tell the parent we've logged in with this token info.
-          this.$emit("login", {
+          this.$emit('login', {
             authToken: resp.data.authToken,
-            user: cleanedUser
+            user: cleanedUser,
           });
           this.$router.push(this.$store.state.redirect);
-          this.$store.commit("setUserEmail", this.form.email);
-          this.$store.commit("setRedirect", "Profile");
+          this.$store.commit('setUserEmail', this.form.email);
+          this.$store.commit('setRedirect', 'Profile');
         })
-        .catch(err => {
+        .catch((err) => {
           this.errors.show = true;
           this.errors.code = err.response;
           try {
@@ -199,9 +199,9 @@ export default {
           } catch (x) {
             this.errors.message = err.message;
           }
-          this.status = "ready";
+          this.status = 'ready';
         });
-    }
-  }
+    },
+  },
 };
 </script>
