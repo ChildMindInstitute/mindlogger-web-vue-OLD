@@ -74,9 +74,9 @@ const formatData = (data) => {
  * `user` : the username
  * `password` : the password
  */
-const signIn = ({ apiHost, user, password }) => axios({
+const signIn = ({ apiHost, user, password, lang }) => axios({
   method: 'get',
-  url: `${apiHost}/user/authentication`,
+  url: `${apiHost}/user/authentication?lang=${lang}`,
   headers: { 'Girder-Authorization': `Basic ${btoa(`${user}:${password}`)}` },
 });
 

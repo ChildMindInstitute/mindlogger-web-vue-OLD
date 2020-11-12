@@ -1,6 +1,6 @@
 <template name="login">
   <div id="login" class="text-center mb-0">
-    <h1 v-if="useTitle">Log In</h1>
+    <h1 v-if="useTitle">{{ $t("login") }}</h1>
 
     <div id="signupForm" class="container fluid">
       <b-alert :show="errors.show" variant="danger">{{
@@ -12,7 +12,7 @@
             id="email"
             v-model="form.email"
             required
-            placeholder="Email"
+            :placeholder="$t('email')"
           >
           </b-form-input>
         </b-form-group>
@@ -32,7 +32,7 @@
           variant="primary"
           :disabled="status === 'loading'"
         >
-          <span v-if="status === 'ready'">Log In</span>
+          <span v-if="status === 'ready'">{{ $t("login") }}</span>
           <span v-else>Logging in...</span>
         </b-button>
       </b-form>
@@ -162,7 +162,8 @@ export default {
         .signIn({
           apiHost: this.apiHost,
           user: this.form.email,
-          password: this.form.password
+          password: this.form.password,
+          lang: this.$i18n.locale.slice(0, 2)
         })
         .then(resp => {
           this.$emit("login", resp.data);

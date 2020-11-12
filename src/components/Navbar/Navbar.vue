@@ -39,16 +39,7 @@
 export default {
   name: "Navbar",
   data: () => ({
-    options: [
-      {
-        text: "English",
-        value: "en_US"
-      },
-      {
-        text: "French",
-        value: "fr_FR"
-      }
-    ]
+    currentLanguage: "en_US",
   }),
   props: {
     isLoggedIn: {
@@ -65,14 +56,23 @@ export default {
     }
   },
   computed: {
-    currentLanguage: {
-      get() {
-        return this.$store.state.currentLanguage;
-      },
-      set(lang) {
-        this.$i18n.locale = lang;
-        this.$store.commit("setCurrentLanguage", lang);
-      }
+    options() {
+      return [
+        {
+          text: this.$t("en"),
+          value: "en_US"
+        },
+        {
+          text: this.$t("fr"),
+          value: "fr_FR"
+        }
+      ]
+    }
+  },
+  methods: {
+    onLanguageChange() {
+      this.$i18n.locale = this.currentLanguage;
+      this.$store.commit("setCurrentLanguage", this.currentLanguage);
     }
   },
   methods: {

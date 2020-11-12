@@ -1,4 +1,6 @@
 export default {
+  en: "Anglaise",
+  fr: "Française",
   userWebText: "Texte web utilisateur de MindLogger ",
   welcome: "Bienvenue sur MindLogger",
   participate: "Participez à des études de recherche scientifique en ligne !",
@@ -82,6 +84,7 @@ export default {
   youHaveNoApps: "Vous n'avez pas encore d'app.",
   fixProblem:
     "Veuillez soumettre une <a href='https://github.com/ChildMindInstitute/mindlogger-web'>  requête sur GitHub</a> afin que nous puissions résoudre ce problème !",
+  success: "Succès",
   resetLinkExpired:
     "Le lien de réinitialisation du mot de passe a expiré"
 };
