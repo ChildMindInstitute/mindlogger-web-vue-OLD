@@ -7,25 +7,25 @@
 
 <script>
 export default {
-  name: "SaveButton",
+  name: 'SaveButton',
   props: {
     ready: {
-      type: Boolean
+      type: Boolean,
     },
     label: {
-      type: String
+      type: String,
     },
     variant: {
       type: String,
-      default: "primary"
+      default: 'primary',
     },
     size: {
       type: String,
-      default: "lg"
+      default: 'lg',
     },
     click: {
-      type: Function
-    }
-  }
+      type: Function,
+    },
+  },
 };
 </script>

@@ -37,46 +37,46 @@
 
 <script>
 export default {
-  name: "Navbar",
+  name: 'Navbar',
   data: () => ({
-    currentLanguage: "en_US",
+    options: [
+      {
+        text: 'English',
+        value: 'en_US',
+      },
+      {
+        text: 'French',
+        value: 'fr_FR',
+      },
+    ],
   }),
   props: {
     isLoggedIn: {
-      type: Boolean
+      type: Boolean,
     },
     user: {
-      type: Object
+      type: Object,
     },
     logout: {
-      type: Function
+      type: Function,
     },
     query: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   computed: {
-    options() {
-      return [
-        {
-          text: this.$t("en"),
-          value: "en_US"
-        },
-        {
-          text: this.$t("fr"),
-          value: "fr_FR"
-        }
-      ]
-    }
+    currentLanguage: {
+      get() {
+        return this.$store.state.currentLanguage;
+      },
+      set(lang) {
+        this.$i18n.locale = lang;
+        this.$store.commit('setCurrentLanguage', lang);
+      },
+    },
   },
   methods: {
-    onLanguageChange() {
-      this.$i18n.locale = this.currentLanguage;
-      this.$store.commit("setCurrentLanguage", this.currentLanguage);
-    }
   },
-  methods: {
-  }
 };
 </script>
 

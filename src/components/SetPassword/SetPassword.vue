@@ -82,58 +82,57 @@
 </template>
 
 <script>
-import _ from "lodash";
-import api from "../../lib/api/";
+import api from '../../lib/api/';
 
 export default {
-  name: "SetPassword",
+  name: 'SetPassword',
   props: {
     apiHost: {
-      type: String
+      type: String,
     },
     loginLink: {
       type: Object,
       default() {
         return {};
-      }
+      },
     },
   },
   data() {
     return {
       mainProps: {
         blank: true,
-        blankColor: "#777",
+        blankColor: '#777',
         width: 75,
         height: 75,
-        class: "m1"
+        class: 'm1',
       },
-      imgProps: { blank: false, width: 50, height: 50, class: "m1" },
+      imgProps: { blank: false, width: 50, height: 50, class: 'm1' },
       // appletsFromServer: [],
-      status: "loading",
+      status: 'loading',
       newPassword: {
         original: null,
-        repeat: null
+        repeat: null,
       },
       isValidToken: false,
-      token: null
+      token: null,
     };
   },
   beforeMount() {
-    const lang = (this.$route.query.lang || 'en') == 'en' ? 'en_US' : 'fr_FR';
+    const lang = (this.$route.query.lang || 'en') === 'en' ? 'en_US' : 'fr_FR';
 
-    this.$store.commit("setCurrentLanguage", lang);
+    this.$store.commit('setCurrentLanguage', lang);
     this.$i18n.locale = lang;
 
     api.checkTemporaryPassword({
       apiHost: this.apiHost,
       userId: this.$route.params.userId,
-      token: this.$route.params.temporaryToken
-    }).then(resp => {
-      this.token = resp.data.authToken.token 
+      token: this.$route.params.temporaryToken,
+    }).then((resp) => {
+      this.token = resp.data.authToken.token;
       this.isValidToken = true;
     }).catch(() => {
       this.isValidToken = false;
-    })
+    });
   },
   computed: {
     validatePass() {
@@ -154,15 +153,15 @@ export default {
           apiHost: this.apiHost,
           oldPassword: this.$route.params.temporaryToken,
           token: this.token,
-          newPassword: this.newPassword.original
+          newPassword: this.newPassword.original,
         })
-        .then(resp => {
+        // eslint-disable-next-line
+        .then((resp) => {
           this.$router.push('/login');
         }).catch(() => {
-          console.log('updating status to failed');
           this.status = 'fail';
-        })
+        });
     },
-  }
+  },
 };
 </script>

@@ -1,7 +1,7 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import createPersistedState from "vuex-persistedstate";
-import _ from "lodash";
+import Vue from 'vue';
+import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
+import _ from 'lodash';
 
 Vue.use(Vuex);
 
@@ -15,13 +15,13 @@ Vue.use(Vuex);
 // eslint-disable-next-line
 const getInitialState = () => {
   return {
-    userEmail: "",
+    userEmail: '',
     applets: [],
     appletResponses: {},
     branchingCache: {},
     activities: {},
-    redirect: "Profile",
-    currentLanguage: "en_US"
+    redirect: 'Profile',
+    currentLanguage: 'en_US',
   };
 };
 
@@ -30,7 +30,7 @@ const state = getInitialState();
 const getters = {
   storeContext() {
     return [];
-  }
+  },
 };
 
 const mutations = {
@@ -50,8 +50,8 @@ const mutations = {
     state.appletResponses[appletURI] = data;
     // eslint-disable-next-line
     console.log(
-      "committing applet responses",
-      state.appletResponses[appletURI]
+      'committing applet responses',
+      state.appletResponses[appletURI],
     );
   },
   setBranchingCache(state, { key, data }) {
@@ -65,14 +65,14 @@ const mutations = {
     _.map(state, (val, key) => {
       state[key] = newState[key];
     });
-  }
+  },
 };
 
 const actions = {
   /**
    * TODO: remove below and fix Survey component
    */
-  updateListShow() {}
+  updateListShow() {},
 };
 
 export default new Vuex.Store({
@@ -80,5 +80,5 @@ export default new Vuex.Store({
   getters,
   mutations,
   actions,
-  plugins: [createPersistedState()]
+  plugins: [createPersistedState()],
 });

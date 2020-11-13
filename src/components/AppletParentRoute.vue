@@ -177,53 +177,53 @@
 </style>
 
 <script>
-import jsonld from "jsonld/dist/jsonld.min";
-import axios from "axios";
-import Circle from "@bit/akeshavan.mindlogger-web.circle";
-import _ from "lodash";
-import "@fortawesome/fontawesome-free/css/all.css";
-import NavSide from "./NavSide";
-import NavBottom from "./NavBottom";
-import colors from "../custom-bootstrap.scss";
+import jsonld from 'jsonld/dist/jsonld.min';
+import axios from 'axios';
+import Circle from '@bit/akeshavan.mindlogger-web.circle';
+import _ from 'lodash';
+import '@fortawesome/fontawesome-free/css/all.css';
+import NavSide from './NavSide';
+import NavBottom from './NavBottom';
+import colors from '../custom-bootstrap.scss';
 
 function getFilename(s) {
-  const folders = s.split("/");
+  const folders = s.split('/');
   const N = folders.length;
-  const filename = folders[N - 1].split(".")[0];
+  const filename = folders[N - 1].split('.')[0];
   return filename;
 }
 
 function getVariableName(s, variableMap) {
-  const vmap = variableMap[0]["@list"];
+  const vmap = variableMap[0]['@list'];
   const mapper = {};
-  _.map(vmap, v => {
-    const uri = v["https://schema.repronim.org/isAbout"][0]["@id"];
-    const variable = v["https://schema.repronim.org/variableName"][0]["@value"];
+  _.map(vmap, (v) => {
+    const uri = v['https://schema.repronim.org/isAbout'][0]['@id'];
+    const variable = v['https://schema.repronim.org/variableName'][0]['@value'];
     mapper[uri] = variable;
   });
-  return mapper[s["@id"]];
+  return mapper[s['@id']];
 }
 
 export default {
-  name: "AppletParentRoute",
+  name: 'AppletParentRoute',
   props: {
     isLoggedIn: {
-      type: Boolean
+      type: Boolean,
     },
     srcUrl: {
-      type: String
+      type: String,
     },
     user: {
-      type: Object
+      type: Object,
     },
     apiHost: {
-      type: String
-    }
+      type: String,
+    },
   },
   components: {
     NavSide,
     NavBottom,
-    circleProgress: Circle
+    circleProgress: Circle,
   },
   data() {
     return {
@@ -232,7 +232,7 @@ export default {
       progress: {},
       data: {},
       colors,
-      visibility: {}
+      visibility: {},
       // cache: {},
     };
   },
@@ -247,21 +247,21 @@ export default {
       try {
         return {
           url: this.appletUrl,
-          name: this.data["http://www.w3.org/2004/02/skos/core#prefLabel"][0][
-            "@value"
-          ]
+          name: this.data['http://www.w3.org/2004/02/skos/core#prefLabel'][0][
+            '@value'
+          ],
         };
       } catch (error) {
         return {
-          name: "loading"
+          name: 'loading',
         };
       }
     },
     activityOrder() {
       if (this.data) {
-        const tmp = this.data["https://schema.repronim.org/order"];
+        const tmp = this.data['https://schema.repronim.org/order'];
         if (tmp) {
-          return tmp[0]["@list"];
+          return tmp[0]['@list'];
         }
       }
       return [];
@@ -269,7 +269,7 @@ export default {
     activityDisplayNames() {
       if (this.data) {
         const tmp = this.data[
-          "https://schema.repronim.org/activity_display_name"
+          'https://schema.repronim.org/activity_display_name'
         ];
         if (tmp) {
           return tmp[0];
@@ -286,8 +286,8 @@ export default {
     nextActivity() {
       const nextObj = {};
       for (let i = 0; i < this.activityOrder.length - 1; i += 1) {
-        nextObj[this.activityOrder[i]["@id"]] = this.activityOrder[i + 1][
-          "@id"
+        nextObj[this.activityOrder[i]['@id']] = this.activityOrder[i + 1][
+          '@id'
         ];
       }
       return nextObj;
@@ -295,12 +295,12 @@ export default {
     schemaNameMapper() {
       const output = {};
       if (this.activityOrder) {
-        _.map(this.activityOrder, s => {
-          let fname = "";
-          if (this.data["https://schema.repronim.org/variableMap"]) {
+        _.map(this.activityOrder, (s) => {
+          let fname = '';
+          if (this.data['https://schema.repronim.org/variableMap']) {
             fname = getVariableName(
               s,
-              this.data["https://schema.repronim.org/variableMap"]
+              this.data['https://schema.repronim.org/variableMap'],
             );
           } else {
             // TODO: remove this backwards compatibility else
@@ -312,15 +312,15 @@ export default {
       return output;
     },
     visibilityConditions() {
-      if (this.data["https://schema.repronim.org/visibility"]) {
-        return _.map(this.activityOrder, s => {
+      if (this.data['https://schema.repronim.org/visibility']) {
+        return _.map(this.activityOrder, (s) => {
           // console.log(s);
           // TODO: don't assume the key name is the same as the ending of the filename.
-          let keyName = "";
-          if (this.data["https://schema.repronim.org/variableMap"]) {
+          let keyName = '';
+          if (this.data['https://schema.repronim.org/variableMap']) {
             keyName = getVariableName(
               s,
-              this.data["https://schema.repronim.org/variableMap"]
+              this.data['https://schema.repronim.org/variableMap'],
             );
           } else {
             // TODO: remove this backwards compatibility else
@@ -331,8 +331,8 @@ export default {
           // and reformat nicely
 
           let condition = _.filter(
-            this.data["https://schema.repronim.org/visibility"],
-            c => c["@index"] === keyName
+            this.data['https://schema.repronim.org/visibility'],
+            c => c['@index'] === keyName,
           );
 
           if (condition.length === 1) {
@@ -340,30 +340,30 @@ export default {
 
             // check which keys are in this condition:
             const conditionKeys = Object.keys(condition);
-            if (conditionKeys.indexOf("@value") > -1) {
-              return condition["@value"];
+            if (conditionKeys.indexOf('@value') > -1) {
+              return condition['@value'];
             }
 
             if (
-              conditionKeys.indexOf("http://schema.org/httpMethod") > -1 &&
-              conditionKeys.indexOf("http://schema.org/url") > -1 &&
-              conditionKeys.indexOf("https://schema.repronim.org/payload") > -1
+              conditionKeys.indexOf('http://schema.org/httpMethod') > -1 &&
+              conditionKeys.indexOf('http://schema.org/url') > -1 &&
+              conditionKeys.indexOf('https://schema.repronim.org/payload') > -1
             ) {
               // lets fill the payload here.
               const payload = {};
               const payloadList =
-                condition["https://schema.repronim.org/payload"];
-              _.map(payloadList, p => {
-                const item = p["@value"];
-                const index = this.schemaNameMapper[item]["@id"];
-                payload[this.schemaNameMapper[item]["@id"]] = this.responses[
+                condition['https://schema.repronim.org/payload'];
+              _.map(payloadList, (p) => {
+                const item = p['@value'];
+                const index = this.schemaNameMapper[item]['@id'];
+                payload[this.schemaNameMapper[item]['@id']] = this.responses[
                   index
                 ];
               });
               return {
-                url: condition["http://schema.org/url"][0]["@value"],
-                method: condition["http://schema.org/httpMethod"][0]["@value"],
-                payload
+                url: condition['http://schema.org/url'][0]['@value'],
+                method: condition['http://schema.org/httpMethod'][0]['@value'],
+                payload,
               };
             }
           }
@@ -373,7 +373,7 @@ export default {
       }
       // return all true's:
       return _.mapValues(this.activityOrder, () => true);
-    }
+    },
   },
   watch: {
     visibilityConditions: {
@@ -382,20 +382,20 @@ export default {
           this.setVisbility();
         }
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   methods: {
     getAppletData() {
-      jsonld.expand(this.appletUrl).then(resp => {
+      jsonld.expand(this.appletUrl).then((resp) => {
         this.data = resp[0];
         this.initializeStorage();
         this.$forceUpdate();
       });
     },
     initializeStorage() {
-      _.map(this.activityOrder, a => {
-        const id = a["@id"];
+      _.map(this.activityOrder, (a) => {
+        const id = a['@id'];
         this.$set(this.responses, id, {});
         this.$set(this.progress, id, 0);
         this.$set(this.complete, id, false);
@@ -439,22 +439,22 @@ export default {
         if (url in this.activities) {
           return (
             this.activities[url][
-              "http://www.w3.org/2004/02/skos/core#prefLabel"
-            ][0]["@value"] ||
+              'http://www.w3.org/2004/02/skos/core#prefLabel'
+            ][0]['@value'] ||
             this.activities[url][
-              "http://www.w3.org/2004/02/skos/core#altLabel"
-            ][0]["@value"] ||
+              'http://www.w3.org/2004/02/skos/core#altLabel'
+            ][0]['@value'] ||
             undefined
           );
         }
         const nameMap = this.data[
-          "https://schema.repronim.org/activity_display_name"
+          'https://schema.repronim.org/activity_display_name'
         ][0];
         if (url in nameMap) {
-          const mappedUrl = nameMap[url][0]["@id"];
-          const folders = mappedUrl.split("/");
+          const mappedUrl = nameMap[url][0]['@id'];
+          const folders = mappedUrl.split('/');
           const N = folders.length;
-          return folders[N - 1].split("_schema")[0].split(".jsonld")[0];
+          return folders[N - 1].split('_schema')[0].split('.jsonld')[0];
         }
       }
       return null;
@@ -466,8 +466,8 @@ export default {
           url: cond.url,
           data: cond.payload,
           headers: {
-            "content-type": "application/json"
-          }
+            'content-type': 'application/json',
+          },
         };
         const cacheKey = JSON.stringify(request);
         if (Object.keys(this.cache).indexOf(cacheKey) > -1) {
@@ -486,15 +486,15 @@ export default {
 
         // this.visibility[index] = resp.data;
         // this.cache[cacheKey] = resp.data;
-        this.$store.commit("setBranchingCache", {
+        this.$store.commit('setBranchingCache', {
           key: cacheKey,
-          data: resp.data
+          data: resp.data,
         });
         return resp.data;
       } else if (_.isString(cond)) {
         // todo: implement client-side evaluation!
         Error(
-          "Client-side branching at activity set level is not implemented yet"
+          'Client-side branching at activity set level is not implemented yet',
         );
       }
       // this.visibility[index] = cond;
@@ -506,8 +506,8 @@ export default {
       }
       return this.computeVisibilityCondition(
         conditionList[0].condition,
-        conditionList[0].index
-      ).then(resp => {
+        conditionList[0].index,
+      ).then((resp) => {
         this.visibility[conditionList[0].index] = resp;
         this.$forceUpdate();
         const newConditionList = [...conditionList];
@@ -518,10 +518,10 @@ export default {
     setVisbility() {
       const values = _.map(this.visibilityConditions, (condition, index) => ({
         condition,
-        index
+        index,
       }));
       this.visibilityChain(values);
-    }
-  }
+    },
+  },
 };
 </script>

@@ -99,7 +99,7 @@ const router = new Router({
       props: {
         apiHost: config.apiHost,
         loginLink: { name: 'Login' },
-      }
+      },
     },
     {
       path: '/settings',

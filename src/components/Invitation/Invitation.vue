@@ -56,31 +56,31 @@
 </style>
 
 <script>
-import api from "../../lib/api/";
-import BounceLoader from "../BounceLoader";
-import ButtonGroup from "./ButtonGroup";
+import api from '../../lib/api/';
+import BounceLoader from '../BounceLoader';
+import ButtonGroup from './ButtonGroup';
 
 export default {
-  name: "Invitation",
+  name: 'Invitation',
   props: {
     user: {
-      type: Object
+      type: Object,
     },
     isLoggedIn: {
-      type: Boolean
+      type: Boolean,
     },
     apiHost: {
-      type: String
-    }
+      type: String,
+    },
   },
   components: {
     ButtonGroup,
-    BounceLoader
+    BounceLoader,
   },
   data() {
     return {
-      status: "loading",
-      invitationText: ""
+      status: 'loading',
+      invitationText: '',
     };
   },
   watch: {
@@ -88,69 +88,69 @@ export default {
       if (this.isLoggedIn) {
         this.getInvitation();
       }
-    }
+    },
   },
   mounted() {
     if (this.isLoggedIn) {
       this.getInvitation();
     } else {
       const route = `invitation/${this.$route.params.invitationId}`;
-      this.$store.commit("setRedirect", route);
+      this.$store.commit('setRedirect', route);
     }
   },
   methods: {
     getInvitation() {
-      this.status = "loading";
+      this.status = 'loading';
       api
         .getInvitation({
           apiHost: this.apiHost,
           token: this.user.authToken.token,
-          invitationId: this.$route.params.invitationId
+          invitationId: this.$route.params.invitationId,
         })
-        .then(resp => {
+        .then((resp) => {
           const { body, lang } = resp.data;
           this.invitationText = body;
-          let landFormatted = lang === "fr" ? "fr_FR" : "en_US";
+          const landFormatted = lang === 'fr' ? 'fr_FR' : 'en_US';
           this.$i18n.locale = landFormatted;
-          this.$store.commit("setCurrentLanguage", landFormatted);
-          this.status = "ready";
+          this.$store.commit('setCurrentLanguage', landFormatted);
+          this.status = 'ready';
         })
         .catch(() => {
-          this.status = "error";
+          this.status = 'error';
         });
     },
     acceptInvitation() {
-      this.status = "loading";
+      this.status = 'loading';
       api
         .acceptInvitation({
           apiHost: this.apiHost,
           email: this.$store.state.userEmail,
           token: this.user.authToken.token,
-          invitationId: this.$route.params.invitationId
+          invitationId: this.$route.params.invitationId,
         })
         .then(() => {
-          this.status = "accepted";
+          this.status = 'accepted';
         })
         .catch(() => {
-          this.status = "error";
+          this.status = 'error';
         });
     },
     removeInvitation() {
-      this.status = "loading";
+      this.status = 'loading';
       api
         .declineInvitation({
           apiHost: this.apiHost,
           token: this.user.authToken.token,
-          invitationId: this.$route.params.invitationId
+          invitationId: this.$route.params.invitationId,
         })
         .then(() => {
-          this.status = "removed";
+          this.status = 'removed';
         })
         .catch(() => {
-          this.status = "error";
+          this.status = 'error';
         });
-      this.status = "removed";
-    }
-  }
+      this.status = 'removed';
+    },
+  },
 };
 </script>

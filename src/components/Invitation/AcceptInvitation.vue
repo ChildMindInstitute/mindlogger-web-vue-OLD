@@ -43,31 +43,31 @@
 </style>
 
 <script>
-import api from "../../lib/api/";
-import BounceLoader from "../BounceLoader";
-import ButtonGroup from "./ButtonGroup";
+import api from '../../lib/api/';
+import BounceLoader from '../BounceLoader';
+import ButtonGroup from './ButtonGroup';
 
 export default {
-  name: "AcceptInvitation",
+  name: 'AcceptInvitation',
   props: {
     user: {
-      type: Object
+      type: Object,
     },
     isLoggedIn: {
-      type: Boolean
+      type: Boolean,
     },
     apiHost: {
-      type: String
-    }
+      type: String,
+    },
   },
   components: {
     ButtonGroup,
-    BounceLoader
+    BounceLoader,
   },
   data() {
     return {
-      status: "loading",
-      invitationText: ""
+      status: 'loading',
+      invitationText: '',
     };
   },
   watch: {
@@ -75,33 +75,33 @@ export default {
       if (this.isLoggedIn) {
         this.acceptInvitation();
       }
-    }
+    },
   },
   mounted() {
     if (this.isLoggedIn) {
       this.acceptInvitation();
     } else {
       const route = `invitation/${this.$route.params.invitationId}/accept`;
-      this.$store.commit("setRedirect", route);
+      this.$store.commit('setRedirect', route);
     }
   },
   methods: {
     acceptInvitation() {
-      this.status = "loading";
+      this.status = 'loading';
       api
         .acceptInvitation({
           apiHost: this.apiHost,
           email: this.$store.state.userEmail,
           token: this.user.authToken.token,
-          invitationId: this.$route.params.invitationId
+          invitationId: this.$route.params.invitationId,
         })
         .then(() => {
-          this.status = "accepted";
+          this.status = 'accepted';
         })
         .catch(() => {
-          this.status = "error";
+          this.status = 'error';
         });
-    }
-  }
+    },
+  },
 };
 </script>

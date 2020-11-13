@@ -38,47 +38,47 @@
 <style></style>
 
 <script>
-import moment from "moment";
-import Vue from "vue";
-import "@babel/polyfill";
-import VCalendar from "v-calendar";
-import _ from "lodash";
-import api from "../lib/api";
-import BounceLoader from "./BounceLoader";
-import ActivityDash from "./Visualization/ActivityDash";
+import moment from 'moment';
+import Vue from 'vue';
+import '@babel/polyfill';
+import VCalendar from 'v-calendar';
+import _ from 'lodash';
+import api from '../lib/api';
+import BounceLoader from './BounceLoader';
+import ActivityDash from './Visualization/ActivityDash';
 
 Vue.use(VCalendar, {
-  firstDayOfWeek: 2 // Monday
+  firstDayOfWeek: 2, // Monday
 });
 
 export default {
-  name: "appletDashboard",
+  name: 'appletDashboard',
   props: {
     isLoggedIn: {
-      type: Boolean
+      type: Boolean,
     },
     user: {
-      type: Object
+      type: Object,
     },
     apiHost: {
-      type: String
+      type: String,
     },
     appletUrl: {
-      type: String
+      type: String,
     },
     applet: {
-      type: [Object, String]
-    }
+      type: [Object, String],
+    },
   },
   components: {
     BounceLoader,
-    ActivityDash
+    ActivityDash,
   },
   data() {
     return {
       // responseDates: [],
       responses: [],
-      status: "loading"
+      status: 'loading',
       // datatables: {},
     };
   },
@@ -103,24 +103,24 @@ export default {
           this.getUserResponses();
         }
       }
-    }
+    },
   },
   computed: {
     calendarAttributes() {
       return [
         {
-          key: "tester",
+          key: 'tester',
           dot: true,
-          dates: this.responseDates
+          dates: this.responseDates,
         },
         {
-          key: "today",
+          key: 'today',
           highlight: {
-            color: "blue",
-            fillMode: "light"
+            color: 'blue',
+            fillMode: 'light',
           },
-          dates: new Date()
-        }
+          dates: new Date(),
+        },
       ];
     },
     responseDates() {
@@ -131,11 +131,11 @@ export default {
     },
     datatables() {
       return this.createDataTables();
-    }
+    },
   },
   methods: {
     getUserResponses() {
-      this.status = "loading";
+      this.status = 'loading';
       /**
        * if there is something in the store, use it.
        */
@@ -146,33 +146,33 @@ export default {
         .getAppletFromURI({
           apiHost: this.apiHost,
           token: this.user.authToken.token,
-          URI: this.appletUrl
+          URI: this.appletUrl,
           // eslint-disable-next-line
         })
-        .then(resp => {
+        .then(resp =>
           /**
            * TODO: this is messy: resp.data.applet._id.split('/')[1]
            * lets fix this in the future.
            */
-          return api.getUserDataFromApplet({
+          api.getUserDataFromApplet({
             apiHost: this.apiHost,
             token: this.user.authToken.token,
             userId: this.user.user._id,
-            appletId: resp.data.applet._id.split("/")[1]
-          });
-        })
-        .then(resp => {
+            appletId: resp.data.applet._id.split('/')[1],
+          }),
+        )
+        .then((resp) => {
           const responses = resp.data;
-          this.$store.commit("setAppletResponses", {
+          this.$store.commit('setAppletResponses', {
             appletURI: this.appletUrl,
-            data: responses
+            data: responses,
           });
           this.responses = responses;
-          this.status = "ready";
+          this.status = 'ready';
           this.$forceUpdate();
         })
         .catch(() => {
-          this.status = "error";
+          this.status = 'error';
         });
     },
     parseDates(responses) {
@@ -183,12 +183,12 @@ export default {
         // when the user's response is for a different day than when
         // they responded.
         return moment(r.updated)
-          .startOf("day")
+          .startOf('day')
           .toDate();
       });
       // this.$store.commit('setAppletResponseDates',
       // { appletURI: this.appletUrl, data: responseDates });
-      this.status = "ready";
+      this.status = 'ready';
       // this.createDataTables();
       return responseDates;
     },
@@ -204,7 +204,7 @@ export default {
     createDataTables() {
       // go through all the responses and group them by activity and item.
       const tables = {};
-      _.map(this.responses, resp => {
+      _.map(this.responses, (resp) => {
         const meta = resp.meta;
 
         // initialize a spot for the activity URI
@@ -225,13 +225,13 @@ export default {
           // item metadata, not the numeric response
           tables[meta.activity.url][key].push({
             response: val,
-            time_of_response: moment(resp.updated).toDate()
+            time_of_response: moment(resp.updated).toDate(),
           });
         });
       });
       // this.datatables = tables;
       return tables;
-    }
-  }
+    },
+  },
 };
 </script>

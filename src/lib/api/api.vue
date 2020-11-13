@@ -242,9 +242,9 @@ const checkTemporaryPassword = ({ apiHost, userId, token }) => axios({
   method: 'get',
   url: `${apiHost}/user/password/temporary/${userId}`,
   params: {
-    token
-  }
-})
+    token,
+  },
+});
 
 
 export default {
