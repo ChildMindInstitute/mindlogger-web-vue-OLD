@@ -16,7 +16,7 @@ export default {
   firstName: 'First Name',
   lastName: 'Last Name',
   confirmPassword: 'Confirm Password',
-  signUp: 'Sign up ',
+  signup: 'Sign up ',
   alreadyHaveAccount: 'Already have an account? ',
   thankYou:
     'Thank you for creating an account with MindLogger. Download MindLogger on an iOS or Android device to get started.',

@@ -76,7 +76,7 @@
             variant="primary"
             :disabled="status === 'loading' || !validated"
           >
-            <span v-if="status === 'ready'">{{ $t("signUp") }}</span>
+            <span v-if="status === 'ready'">{{ $t("signup") }}</span>
             <span v-else>{{ $t("signingUp") }}...</span>
           </b-button>
 

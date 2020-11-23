@@ -17,7 +17,7 @@
         }}</b-button>
         {{ $t("or") }}
         <b-button :to="{ name: 'SignUp', query }" variant="success" size="lg">{{
-          $t("signUp")
+          $t("signup")
         }}</b-button>
       </div>
       <div class="mt-3" v-else>
