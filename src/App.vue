@@ -98,7 +98,13 @@ export default {
    * @returns {void}
    */
   created() {
-    this.$store.commit('setCurrentLanguage', this.$route.query.lang || 'en_US');
+    let lang = this.$route.query.lang;
+
+    if (lang === 'fr') lang = 'fr_FR';
+    else lang = 'en_US';
+
+    this.$store.commit('setCurrentLanguage', lang || 'en_US');
+    this.$i18n.locale = lang || 'en_US';
   },
 
   /**
