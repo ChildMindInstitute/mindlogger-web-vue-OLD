@@ -1,7 +1,7 @@
 <template name="signup">
   <div id="signup" class="pt-3 ">
     <div class="">
-      <h1 class="text-center" v-if="useTitle">{{ $t('signUp') }}</h1>
+      <h1 class="text-center" v-if="useTitle">{{ $t('signup') }}</h1>
       <div id="signupForm" class="container fluid">
         <b-form @submit="onSubmit">
           <b-alert :show="errors.show" variant="danger">{{
