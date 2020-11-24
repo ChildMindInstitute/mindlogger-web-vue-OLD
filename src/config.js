@@ -1,5 +1,5 @@
 export default {
-  apiHost: 'https://api-staging.mindlogger.org/api/v1',
+  apiHost: 'https://api.mindlogger.org/api/v1',
   applets: [
     {
       url:
