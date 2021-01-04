@@ -94,6 +94,11 @@ export default {
     if (this.isLoggedIn) {
       this.getInvitation();
     } else {
+      const isFrLocale = (this.$route.query.lang.split('/')).includes('fr');
+      if (isFrLocale) {
+        this.$i18n.locale = 'fr_FR';
+        this.$store.commit('setCurrentLanguage', 'fr_FR');
+      }
       const route = `invitation/${this.$route.params.invitationId}`;
       this.$store.commit('setRedirect', route);
     }
