@@ -7,8 +7,9 @@
         </h1>
       </div>
       <div
-        v-if="status === 'ready'"
+        v-if="status === 'ready' || status === 'already_accepted'"
         class="invitationBody"
+        :class="{alreadyAccepted: status==='already_accepted'}"
         v-html="invitationText"
       />
       <div v-else-if="status === 'error'">
@@ -48,6 +49,12 @@
 .invitationBody * {
   text-align: left;
   font-size: 16px;
+}
+
+.invitationBody.alreadyAccepted {
+  font-size: 25px;
+  text-align: center;
+  margin-top: 20px;
 }
 
 .invitationBody {
@@ -113,12 +120,12 @@ export default {
           invitationId: this.$route.params.invitationId,
         })
         .then((resp) => {
-          const { body, lang } = resp.data;
+          const { body, lang, acceptable } = resp.data;
           this.invitationText = body;
           const landFormatted = lang === 'fr' ? 'fr_FR' : 'en_US';
           this.$i18n.locale = landFormatted;
           this.$store.commit('setCurrentLanguage', landFormatted);
-          this.status = 'ready';
+          this.status = acceptable ? 'ready' : 'already_accepted';
         })
         .catch(() => {
           this.status = 'error';
