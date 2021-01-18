@@ -116,12 +116,12 @@ const router = new Router({
     },
     {
       path: '/invitation/:invitationId/accept',
-      name: 'Invitation',
+      name: 'AcceptInvitation',
       component: AcceptInvitation,
     },
     {
       path: '/invitation/:invitationId/decline',
-      name: 'Invitation',
+      name: 'DeclineInvitation',
       component: DeclineInvitation,
     },
   ],

@@ -12,8 +12,8 @@
           {{ $t("home") }}
         </router-link>
       </div>
-      <h1 v-else-if="status === 'declined'">
-        Invitation Declined
+      <h1 v-else-if="status === 'declined'" class="invitationMessage">
+        {{ message }}
       </h1>
       <BounceLoader v-else />
     </div>
@@ -35,6 +35,12 @@
 .invitationBody * {
   text-align: left;
   font-size: 16px;
+}
+
+.invitationMessage {
+  font-size: 25px;
+  text-align: center;
+  margin-top: 20px;
 }
 
 .invitationBody {
@@ -68,6 +74,7 @@ export default {
     return {
       status: 'loading',
       invitationText: '',
+      message: '',
     };
   },
   watch: {
@@ -94,8 +101,13 @@ export default {
           token: this.user.authToken.token,
           invitationId: this.$route.params.invitationId,
         })
-        .then(() => {
+        .then((message) => {
           this.status = 'declined';
+          this.message = message.data.body;
+
+          const landFormatted = (message.data.lang === 'fr' ? 'fr_FR' : 'en_US');
+          this.$i18n.locale = landFormatted;
+          this.$store.commit('setCurrentLanguage', landFormatted);
         })
         .catch(() => {
           this.status = 'error';
