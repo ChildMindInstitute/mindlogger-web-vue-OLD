@@ -32,7 +32,7 @@
               src="https://27c2s3mdcxk2qzutg1z8oa91-wpengine.netdna-ssl.com/wp-content/themes/childmind/assets/img/cmi-logo-vert-ko.svg"
             />
             © <a href="https://childmind.org">Child Mind Institute</a> MATTER
-            Lab 2019
+            Lab 2021
           </p>
         </b-col>
       </b-row>
